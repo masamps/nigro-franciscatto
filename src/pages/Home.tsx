@@ -51,9 +51,7 @@ const Home = () => {
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="mb-8">
               <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                Advocacia &
-                <br />
-                <span className="text-white/90">Seguros</span>
+                Nigro Franciscatto
               </h1>
             </div>
             

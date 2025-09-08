@@ -18,8 +18,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 210 11% 15%;
 
-    /* Primary: Professional Navy Blue (#002147) */
-    --primary: 210 100% 14%;
+    /* Primary: Professional Wine Red (#661122) */
+    --primary: 345 67% 26%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary: Professional Gray (#4A4A4A) */
@@ -30,20 +30,20 @@ All colors MUST be HSL.
     --muted-foreground: 210 11% 46%;
 
     --accent: 210 40% 94%;
-    --accent-foreground: 210 100% 14%;
+    --accent-foreground: 345 67% 26%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 210 100% 14%;
+    --ring: 345 67% 26%;
 
     --radius: 0.75rem;
     
     /* Custom Law Firm Design Tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(210 100% 14%) 0%, hsl(210 100% 20%) 100%);
-    --elegant-shadow: 0 25px 50px -12px hsl(210 100% 14% / 0.25);
+    --hero-gradient: linear-gradient(135deg, hsl(345 67% 26%) 0%, hsl(345 67% 32%) 100%);
+    --elegant-shadow: 0 25px 50px -12px hsl(345 67% 26% / 0.25);
     --glass-bg: hsl(0 0% 100% / 0.9);
     --section-spacing: 5rem;
     --smooth-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -75,8 +75,8 @@ All colors MUST be HSL.
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 345 67% 75%;
+    --primary-foreground: 345 67% 15%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -85,14 +85,14 @@ All colors MUST be HSL.
     --muted-foreground: 215 20.2% 65.1%;
 
     --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent-foreground: 345 67% 75%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 345 67% 75%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

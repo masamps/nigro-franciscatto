@@ -40,7 +40,7 @@ const HeroSection = () => {
           onClick={scrollToContact}
           className="font-sans"
         >
-          Entre em Contato
+          Teste
         </Button>
       </div>
       

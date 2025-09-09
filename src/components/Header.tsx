@@ -13,7 +13,6 @@ const Header = () => {
     { name: "Nossos Colaboradores", href: "/equipe" },
     { name: "Áreas de Atuação", href: "/areas-atuacao" },
     { name: "Artigos e Novidades", href: "/artigos" },
-    { name: "Contato", href: "/contato" },
   ];
 
   const isActive = (href: string) => {
@@ -33,7 +32,7 @@ const Header = () => {
             </div>
             <div>
               <h1 className="font-serif text-xl font-bold text-foreground">
-                Advocacia & Seguros
+                Nigro Franciscatto
               </h1>
               <p className="text-xs text-muted-foreground font-sans">
                 Ética e Excelência Jurídica
@@ -61,7 +60,7 @@ const Header = () => {
           {/* Desktop CTA */}
           <div className="hidden lg:flex">
             <Button variant="default" asChild>
-              <Link to="/contato">Consulta Jurídica</Link>
+              <Link to="/contato">Contato</Link>
             </Button>
           </div>
 
@@ -100,7 +99,7 @@ const Header = () => {
               <div className="pt-4 px-3">
                 <Button variant="default" className="w-full" asChild>
                   <Link to="/contato" onClick={() => setIsMenuOpen(false)}>
-                    Consulta Jurídica
+                    Contato
                   </Link>
                 </Button>
               </div>

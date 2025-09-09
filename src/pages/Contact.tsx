@@ -148,9 +148,9 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold text-foreground mb-2">Endereço</h3>
                       <p className="text-muted-foreground">
-                        Av. Paulista, 1000 - Conjunto 1201<br />
-                        Bela Vista, São Paulo - SP<br />
-                        CEP: 01310-100
+                        Rua Carlos Roberto de Melo, 475 - Sala 301 - Metropolitan Office Tower, 
+                        Parque Gabriel, Hortolândia - SP<br />
+                        CEP: 13186-604
                       </p>
                     </div>
                   </div>
@@ -163,11 +163,8 @@ const Contact = () => {
                       <h3 className="font-semibold text-foreground mb-2">Telefones</h3>
                       <p className="text-muted-foreground">
                         <a href="tel:+551134567890" className="hover:text-primary transition-colors">
-                          (11) 3456-7890
+                          (15) 98815-1900
                         </a><br />
-                        <a href="tel:+5511987654321" className="hover:text-primary transition-colors">
-                          (11) 98765-4321
-                        </a>
                       </p>
                     </div>
                   </div>
@@ -179,12 +176,9 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold text-foreground mb-2">E-mails</h3>
                       <p className="text-muted-foreground">
-                        <a href="mailto:contato@advocaciaseguros.com.br" className="hover:text-primary transition-colors">
-                          contato@advocaciaseguros.com.br
+                        <a href="mailto:robertanigro@nigrofranciscatto.com.br" className="hover:text-primary transition-colors">
+                          robertanigro@nigrofranciscatto.com.br
                         </a><br />
-                        <a href="mailto:atendimento@advocaciaseguros.com.br" className="hover:text-primary transition-colors">
-                          atendimento@advocaciaseguros.com.br
-                        </a>
                       </p>
                     </div>
                   </div>

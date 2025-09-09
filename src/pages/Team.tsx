@@ -2,13 +2,13 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Mail, Linkedin, Award, BookOpen } from "lucide-react";
-import lawyer1 from "@/assets/lawyer-1.jpg";
+import lawyer1 from "@/assets/roberta-nigro.png";
 import lawyer2 from "@/assets/lawyer-2.jpg";
 
 const Team = () => {
   const team = [
     {
-      name: "Dra. Marina Silva Santos",
+      name: "Dra. Roberta Nigro Franciscatto",
       role: "Sócia-Fundadora",
       specialty: "Direito Securitário",
       image: lawyer1,
@@ -25,8 +25,8 @@ const Team = () => {
       ]
     },
     {
-      name: "Dr. Carlos Eduardo Oliveira",
-      role: "Sócio",
+      name: "Dra. Nicole Nigro",
+      role: "Sócia",
       specialty: "Litígios e Recursos",
       image: lawyer2,
       description: "Advogado especializado em litígios securitários e recursos administrativos com 15 anos de experiência. Pós-graduado em Direito do Seguro pela ENS e especialista em mediação e arbitragem. Reconhecido por sua expertise em casos de sinistros complexos.",
@@ -253,7 +253,7 @@ const Team = () => {
                   Ver Áreas de Atuação
                 </Link>
               </Button>
-              <Button variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+              <Button className="border border-input  hover:bg-accent hover:text-accent-foreground" asChild>
                 <Link to="/contato">
                   Solicitar Consulta
                 </Link>

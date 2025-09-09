@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Advocacia em Seguros | Defendendo seus direitos com ética e excelência</title>
+        <title>Nigro Franciscatto</title>
         <meta name="description" content="Escritório de advocacia especializado em seguros com mais de 15 anos de experiência. Consultoria jurídica, análise de apólices e defesa de direitos." />
         <meta name="keywords" content="advocacia, seguros, direito securitário, consultoria jurídica, análise apólice, São Paulo" />
         <link rel="canonical" href="https://advocaciaseguros.com.br/" />
@@ -65,12 +65,12 @@ const Home = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" asChild>
+              <Button className="border border-input  hover:bg-accent hover:text-accent-foreground" asChild>
                 <Link to="/contato">
                   Entre em Contato
                 </Link>
               </Button>
-              <Button variant="outline" className="text-white border-white hover:bg-white hover:text-primary" asChild>
+              <Button variant="secondary" className="text-white border-grey hover:bg-white hover:text-black" asChild>
                 <Link to="/sobre">
                   Conheça Nosso Escritório
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -180,7 +180,7 @@ const Home = () => {
                   Agendar Consulta
                 </Link>
               </Button>
-              <Button variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+              <Button className="border border-input  hover:bg-accent hover:text-accent-foreground" asChild>
                 <Link to="/equipe">
                   Conhecer Nossa Equipe
                 </Link>

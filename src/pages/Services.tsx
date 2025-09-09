@@ -2,86 +2,50 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
 import { 
-  Shield, 
-  FileText, 
-  Scale, 
-  Users, 
-  Briefcase, 
-  TrendingUp,
+  Scale,
   ArrowRight,
   CheckCircle,
-  Phone
+  Phone,
+  Gavel,
+  Handshake
 } from "lucide-react";
 
 const Services = () => {
   const services = [
-    {
-      icon: Shield,
-      title: "Direito Securitário",
-      description: "Consultoria especializada em contratos de seguros, análise de coberturas e defesa de direitos dos segurados.",
-      features: [
-        "Análise de contratos de seguro",
-        "Defesa em casos de negativa de cobertura",
-        "Consultoria preventiva",
-        "Revisão de apólices existentes"
-      ]
-    },
-    {
-      icon: FileText,
-      title: "Análise de Apólices",
-      description: "Revisão técnica de apólices de seguros, identificação de cláusulas abusivas e orientação sobre coberturas.",
-      features: [
-        "Identificação de cláusulas abusivas",
-        "Orientação sobre coberturas",
-        "Análise de exclusões",
-        "Avaliação de franquias"
-      ]
-    },
-    {
-      icon: Scale,
-      title: "Litígios e Recursos",
-      description: "Representação em ações judiciais, recursos administrativos e negociações extrajudiciais.",
-      features: [
-        "Ações judiciais especializadas",
-        "Recursos administrativos à SUSEP",
-        "Mediação e arbitragem",
-        "Negociações extrajudiciais"
-      ]
-    },
-    {
-      icon: Users,
-      title: "Consultoria Empresarial",
-      description: "Assessoria jurídica para seguradoras, corretoras e empresas do setor securitário.",
-      features: [
-        "Assessoria para seguradoras",
-        "Consultoria para corretores",
-        "Treinamento de equipes",
-        "Elaboração de pareceres"
-      ]
-    },
-    {
-      icon: Briefcase,
-      title: "Compliance Securitário",
-      description: "Implementação de políticas de conformidade e adequação às normas da SUSEP.",
-      features: [
-        "Adequação às normas SUSEP",
-        "Políticas de compliance",
-        "Auditoria de processos",
-        "Gestão de riscos jurídicos"
-      ]
-    },
-    {
-      icon: TrendingUp,
-      title: "Recuperação de Valores",
-      description: "Ações de cobrança e recuperação de valores em sinistros e indenizações.",
-      features: [
-        "Cobrança de indenizações",
-        "Recuperação de valores pagos indevidamente",
-        "Ações regressivas",
-        "Execução de garantias"
-      ]
-    }
-  ];
+  {
+    icon: Handshake,
+    title: "Ressarcimento de Sinistros Extrajudicial",
+    description: "Atuação preventiva e estratégica para solucionar conflitos de seguros sem necessidade de processo judicial, reduzindo custos e tempo para segurados e seguradoras.",
+    features: [
+      "Negociação direta com seguradoras",
+      "Defesa contra negativas indevidas de cobertura",
+      "Acordos extrajudiciais rápidos e eficazes",
+      "Revisão e adequação de apólices"
+    ]
+  },
+  {
+    icon: Gavel,
+    title: "Ressarcimento de Sinistros Judicial",
+    description: "Representação judicial em ações de ressarcimento contra seguradoras, com foco em garantir os direitos dos clientes e recuperar valores devidos.",
+    features: [
+      "Ações judiciais para cobrança de indenizações",
+      "Impugnação de cláusulas abusivas em apólices",
+      "Recursos estratégicos para maximizar resultados",
+      "Atuação em todas as instâncias do Judiciário"
+    ]
+  },
+  {
+    icon: Scale,
+    title: "Ressarcimento de Sinistros Contencioso",
+    description: "Defesa especializada em litígios complexos de seguros, incluindo disputas administrativas e arbitrais, buscando soluções justas e eficazes.",
+    features: [
+      "Ações contenciosas de alta complexidade",
+      "Atuação em arbitragens e mediações",
+      "Recursos administrativos perante a SUSEP",
+      "Estratégias jurídicas personalizadas para cada caso"
+    ]
+  }
+];
 
   const sectors = [
     "Seguro de Vida",
@@ -273,7 +237,7 @@ const Services = () => {
                   Solicitar Consulta
                 </Link>
               </Button>
-              <Button variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+              <Button className="border border-input  hover:bg-accent hover:text-accent-foreground" asChild>
                 <Link to="/equipe">
                   Conhecer Nossa Equipe
                   <ArrowRight className="w-4 h-4 ml-2" />

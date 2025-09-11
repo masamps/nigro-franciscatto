@@ -60,7 +60,7 @@ const Home = () => {
             </p>
             
             <p className="font-sans text-lg md:text-xl text-white/80 mb-12 max-w-3xl mx-auto">
-              Especialistas em direito securitário com mais de 15 anos de experiência. 
+              Especialistas em direito securitário com mais de 25 anos de experiência. 
               Oferecemos consultoria jurídica de alta qualidade para proteger seus interesses.
             </p>
             

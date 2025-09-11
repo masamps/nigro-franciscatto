@@ -22,7 +22,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename="/nigro-franciscatto">
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />

@@ -38,7 +38,7 @@ const Home = () => {
         <link rel="canonical" href="https://advocaciaseguros.com.br/" />
       </Helmet>
 
-      <div className="min-h-screen pt-20">
+      <div className="min-h-screen">
         {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div 

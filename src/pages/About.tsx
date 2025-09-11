@@ -245,7 +245,7 @@ const About = () => {
                   Conhecer Equipe
                 </Link>
               </Button>
-              <Button variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+              <Button className="border border-input  hover:bg-accent hover:text-accent-foreground" asChild>
                 <Link to="/contato">
                   Entrar em Contato
                 </Link>

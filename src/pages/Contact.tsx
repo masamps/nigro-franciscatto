@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Clock, Upload, FileText, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/custom-button";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -26,15 +27,36 @@ const Contact = () => {
     position: ""
   });
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    toast({
-      title: "Mensagem enviada com sucesso!",
-      description: "Entraremos em contato em breve.",
-    });
-    
-    setContactForm({ name: "", email: "", phone: "", subject: "", message: "" });
+
+    try {
+      await emailjs.send(
+        "service_diah3ju",
+        "template_4j2shs3",
+        {
+          title: contactForm.subject,
+          from_name: contactForm.name,
+          reply_to: contactForm.email,
+          phone: contactForm.phone,
+          message: contactForm.message,
+        },
+        "iMV2JXWr-RovUUEPD"
+      );
+
+      toast({
+        title: "Mensagem enviada com sucesso!",
+        description: "Entraremos em contato em breve.",
+      });
+
+      setContactForm({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: "Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -88,15 +110,40 @@ const Contact = () => {
     }
   };
 
-  const handleResumeSubmit = (e: React.FormEvent) => {
+  const handleResumeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (uploadedFile) {
+
+    if (!uploadedFile) return;
+
+    try {
+      // Cria formData para enviar arquivo
+      const formData = new FormData();
+      formData.append("file", uploadedFile);
+      formData.append("from_name", resumeForm.name);
+      formData.append("from_email", resumeForm.email);
+      formData.append("phone", resumeForm.phone);
+      formData.append("position", resumeForm.position);
+
+      await emailjs.sendForm(
+        "service_diah3ju",
+        "template_r2susih", // use outro template para currículos
+        e.target as HTMLFormElement,
+        "iMV2JXWr-RovUUEPD"
+      );
+
       toast({
         title: "Currículo enviado com sucesso!",
         description: "Analisaremos seu perfil e entraremos em contato.",
       });
+
       setUploadedFile(null);
       setResumeForm({ name: "", email: "", phone: "", position: "" });
+    } catch (error) {
+      toast({
+        title: "Erro ao enviar currículo",
+        description: "Tente novamente mais tarde.",
+        variant: "destructive",
+      });
     }
   };
 

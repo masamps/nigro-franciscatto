@@ -15,34 +15,40 @@ const Services = () => {
   {
     icon: Handshake,
     title: "Ressarcimento de Sinistros Extrajudicial",
-    description: "Atuação preventiva e estratégica para solucionar conflitos de seguros sem necessidade de processo judicial, reduzindo custos e tempo para segurados e seguradoras.",
+    description: "Procedimento de cobrança ou recuperação de valores pagos por sinistros, feito fora do Judiciário, buscando acordo direto entre as partes envolvidas (normalmente seguradora e causador do dano).",
+    subtitle: "Etapas da Atuação Extrajudicial",
     features: [
-      "Negociação direta com seguradoras",
-      "Defesa contra negativas indevidas de cobertura",
-      "Acordos extrajudiciais rápidos e eficazes",
-      "Revisão e adequação de apólices"
+      "Análise do Sinistro",
+      "Notificação Extrajudicial",
+      "Negociação",
+      "Acordo Formalizado",
+      "⁠Cobrança de Inadimplência (se necessário)"
     ]
   },
   {
     icon: Gavel,
     title: "Ressarcimento de Sinistros Judicial",
-    description: "Representação judicial em ações de ressarcimento contra seguradoras, com foco em garantir os direitos dos clientes e recuperar valores devidos.",
+    description: "Ação judicial movida por quem sofreu prejuízo ou por quem arcou com os custos do sinistro (normalmente a seguradora, via direito de regresso) contra o responsável pelo dano, visando o ressarcimento dos valores pagos.",
+    subtitle: "Tipos de Ações Judiciais Utilizadas",
     features: [
-      "Ações judiciais para cobrança de indenizações",
-      "Impugnação de cláusulas abusivas em apólices",
-      "Recursos estratégicos para maximizar resultados",
-      "Atuação em todas as instâncias do Judiciário"
+      "Ação de Regressiva",
+      "Ação de Indenização por Danos Materiais",
+      "Ação de Cobrança",
     ]
   },
   {
     icon: Scale,
-    title: "Ressarcimento de Sinistros Contencioso",
-    description: "Defesa especializada em litígios complexos de seguros, incluindo disputas administrativas e arbitrais, buscando soluções justas e eficazes.",
+    title: "Contencioso",
+    description: "Procedimento de cobrança judicial dos valores pagos em um sinistro, quando não há acordo extrajudicial entre as partes ou quando o responsável se recusa a pagar. Nessa modalidade, o processo tramita perante o Poder Judiciário e segue as regras processuais civis.",
+    subtitle:"Etapas da Atuação Extrajudicial",
     features: [
-      "Ações contenciosas de alta complexidade",
-      "Atuação em arbitragens e mediações",
-      "Recursos administrativos perante a SUSEP",
-      "Estratégias jurídicas personalizadas para cada caso"
+      "Análise do Caso",
+      "Preparação da Ação Judicial",
+      "Citação e Defesa",
+      "Instrução Processual",
+      "Sentença",
+      "Recursos",
+      "Cumprimento de Sentença / Execução",
     ]
   }
 ];
@@ -110,7 +116,7 @@ const Services = () => {
 
                   <div className="space-y-2">
                     <h4 className="font-sans font-semibold text-foreground text-sm mb-3">
-                      Principais Serviços:
+                      {service.subtitle}
                     </h4>
                     {service.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-center gap-2">

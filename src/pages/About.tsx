@@ -156,6 +156,96 @@ const About = () => {
           </div>
         </section>
 
+                {/* Clients Section */}
+        <section className="py-section bg-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Principais Clientes
+              </h2>
+              <p className="font-sans text-lg text-muted-foreground max-w-3xl mx-auto">
+                Orgulhamo-nos de atender empresas e instituições que confiam em nosso 
+                trabalho e compartilham de nossos valores de ética, comprometimento e excelência.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+              {/* Card Cliente */}
+              <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
+                <div className="flex justify-center mb-6">
+                  <img
+                    src="src/assets/LogoAllianz.png"
+                    alt="ALLIANZ SEGUROS SA"
+                    className="h-16 object-contain"
+                  />
+                </div>
+                <div className="text-xl font-bold text-primary mb-2">Allianz Seguros S.A.</div>
+                <p className="font-sans text-muted-foreground text-sm">
+                  Uma das maiores seguradoras do mundo, reconhecida pela solidez e inovação em soluções de seguros.
+                </p>
+              </div>
+
+              <div className="bg-card p-2 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
+                <div className="flex justify-center mb-6">
+                  <img
+                    src="src/assets/itau.png"
+                    alt="Itaú Seguros Auto e Residência S.A."
+                    className="h-20 object-contain"
+                  />
+                </div>
+                <div className="text-xl font-bold text-primary mb-2">Itaú Seguros Auto e Residência S.A.</div>
+                <p className="font-sans text-muted-foreground text-sm">
+                  Referência no setor, alia a confiança do Itaú a produtos completos em seguros de automóveis e residências.
+                </p>
+              </div>
+
+              <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
+                <div className="flex justify-center mb-6">
+                  <img
+                    src="src/assets/yelum.png"
+                    alt="Yelum Seguros S.A."
+                    className="h-16 object-contain"
+                  />
+                </div>
+                <div className="text-xl font-bold text-primary mb-2">Yelum Seguros S.A.</div>
+                <p className="font-sans text-muted-foreground text-sm">
+                  Entre os maiores grupos seguradores do país, com foco em atendimento excepcional e soluções personalizadas em seguros.
+                </p>
+              </div>
+
+              <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
+                <div className="flex justify-center mb-6">
+                  <img
+                    src="src/assets/indiana.png"
+                    alt="Indiana Seguros S.A."
+                    className="h-16 object-contain"
+                  />
+                </div>
+                <div className="text-xl font-bold text-primary mb-2">Indiana Seguros S.A.</div>
+                <p className="font-sans text-muted-foreground text-sm">
+                  Empresa com tradição no mercado securitário, destacando-se pela flexibilidade e agilidade nos serviços.
+                </p>
+              </div>
+
+              <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
+                <div className="flex justify-center mb-6">
+                  <img
+                    src="src/assets/hdi.png"
+                    alt="HDI Seguros S.A."
+                    className="h-16 object-contain"
+                  />
+                </div>
+                <div className="text-xl font-bold text-primary mb-2">HDI Seguros S.A.</div>
+                <p className="font-sans text-muted-foreground text-sm">
+                  Seguradora de destaque nacional, reconhecida pela qualidade no atendimento e diversidade de produtos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
         {/* Numbers Section */}
         <section className="py-section bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

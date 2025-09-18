@@ -27,17 +27,22 @@ const Header = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:shadow-elegant transition-all duration-300">
-              <Scale className="w-6 h-6 text-primary-foreground" />
+            <div className="flex items-center justify-center">
+              {/* <Scale className="w-6 h-6 text-primary-foreground" /> */}
+              <img
+                src="src/assets/logo.png"
+                alt="Logo Nigro Franciscatto"
+                className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </div>
-            <div>
+            {/* <div>
               <h1 className="font-serif text-xl font-bold text-foreground">
                 Nigro Franciscatto
               </h1>
               <p className="text-xs text-muted-foreground font-sans">
                 Ética e Excelência Jurídica
               </p>
-            </div>
+            </div> */}
           </Link>
 
           {/* Desktop Navigation */}

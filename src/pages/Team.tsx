@@ -14,14 +14,12 @@ const Team = () => {
       image: lawyer1,
       description: "Especialista em direito securitário com mais de 18 anos de experiência. Mestre em Direito Civil pela USP e pós-graduada em Direito do Consumidor. Reconhecida pelo mercado por sua atuação em casos complexos de seguros de vida e previdência.",
       education: [
-        "Mestrado em Direito Civil - USP",
-        "Pós-graduação em Direito do Consumidor - PUC-SP",
-        "Graduação em Direito - Universidade Mackenzie"
+        "Graduação em Direito - Instituição Toledo de Ensino - Faculdade de Direito de Bauru"
       ],
       achievements: [
-        "Advogada do Ano em Direito Securitário - 2020",
-        "Membro da Comissão de Direito do Seguro - OAB/SP",
-        "Palestrante em congressos nacionais de direito securitário"
+        "Certificação em Mediação pela CNJ",
+        "Membro do Instituto Brasileiro de Direito do Seguro",
+        "Autor de artigos em revistas especializadas"
       ]
     },
     {
@@ -129,7 +127,7 @@ const Team = () => {
                             Reconhecimentos
                           </h3>
                           <ul className="space-y-2">
-                            {member.achievements.map((achievement, achIndex) => (
+                            {member?.achievements?.map((achievement, achIndex) => (
                               <li key={achIndex} className="font-sans text-sm text-muted-foreground">
                                 • {achievement}
                               </li>

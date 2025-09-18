@@ -39,7 +39,6 @@ const Home = () => {
       </Helmet>
 
       <div className="min-h-screen">
-        {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -56,7 +55,7 @@ const Home = () => {
             </div>
             
             <p className="font-serif text-xl md:text-2xl lg:text-3xl text-white/95 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Defendendo seus direitos com ética e excelência
+              Sociedade Individual de Advocacia
             </p>
             
             <p className="font-sans text-lg md:text-xl text-white/80 mb-12 max-w-3xl mx-auto">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Scale } from "lucide-react";
 import { Button } from "@/components/ui/custom-button";
+import logo from "@/assets/Logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +31,7 @@ const Header = () => {
             <div className="flex items-center justify-center">
               {/* <Scale className="w-6 h-6 text-primary-foreground" /> */}
               <img
-                src="/Logo.png"
+                src={logo}
                 alt="Logo Nigro Franciscatto"
                 className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />

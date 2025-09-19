@@ -30,7 +30,7 @@ const Header = () => {
             <div className="flex items-center justify-center">
               {/* <Scale className="w-6 h-6 text-primary-foreground" /> */}
               <img
-                src="src/assets/logo.png"
+                src="/Logo.png"
                 alt="Logo Nigro Franciscatto"
                 className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />

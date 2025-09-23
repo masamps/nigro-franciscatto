@@ -4,6 +4,8 @@ import { Mail, Phone, MapPin, Send, Clock, Upload, FileText, CheckCircle } from 
 import { Button } from "@/components/ui/custom-button";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
+import { supabase } from "@/lib/supabaseClient";
+
 
 const Contact = () => {
   const { toast } = useToast();
@@ -116,35 +118,49 @@ const Contact = () => {
     if (!uploadedFile) return;
 
     try {
-      // Cria formData para enviar arquivo
-      const formData = new FormData();
-      formData.append("file", uploadedFile);
-      formData.append("from_name", resumeForm.name);
-      formData.append("from_email", resumeForm.email);
-      formData.append("phone", resumeForm.phone);
-      formData.append("position", resumeForm.position);
-
-      await emailjs.sendForm(
-        "service_diah3ju",
-        "template_r2susih", // use outro template para currículos
-        e.target as HTMLFormElement,
-        "iMV2JXWr-RovUUEPD"
-      );
-
-      toast({
-        title: "Currículo enviado com sucesso!",
-        description: "Analisaremos seu perfil e entraremos em contato.",
+    const filePath = `${Date.now()}-${uploadedFile.name}`;
+    const { data: fileData, error: uploadError } = await supabase.storage
+      .from("curriculos-public")
+      .upload(filePath, uploadedFile, {
+        cacheControl: "3600",
+        upsert: false,
       });
 
-      setUploadedFile(null);
-      setResumeForm({ name: "", email: "", phone: "", position: "" });
-    } catch (error) {
-      toast({
-        title: "Erro ao enviar currículo",
-        description: "Tente novamente mais tarde.",
-        variant: "destructive",
-      });
-    }
+    if (uploadError) throw uploadError;
+
+    const { data: publicUrlData } = supabase.storage
+      .from("curriculos-public")
+      .getPublicUrl(filePath);
+
+    const fileUrl = publicUrlData.publicUrl;
+
+    const { error: insertError } = await supabase.from("curriculos").insert([
+      {
+        name: resumeForm.name,
+        email: resumeForm.email,
+        phone: resumeForm.phone,
+        position: resumeForm.position,
+        file_url: fileUrl,
+      },
+    ]);
+
+    if (insertError) throw insertError;
+
+    toast({
+      title: "Currículo enviado com sucesso!",
+      description: "Seu currículo foi armazenado em nosso banco de talentos.",
+    });
+
+    setUploadedFile(null);
+    setResumeForm({ name: "", email: "", phone: "", position: "" });
+  } catch (error) {
+    console.error(error);
+    toast({
+      title: "Erro ao enviar currículo",
+      description: "Tente novamente mais tarde.",
+      variant: "destructive",
+    });
+  }
   };
 
   const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

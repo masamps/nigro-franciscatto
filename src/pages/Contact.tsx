@@ -10,7 +10,6 @@ import { supabase } from "@/lib/supabaseClient";
 const Contact = () => {
   const { toast } = useToast();
   
-  // Contact form state
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -19,7 +18,6 @@ const Contact = () => {
     message: ""
   });
 
-  // Resume form state
   const [dragActive, setDragActive] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [resumeForm, setResumeForm] = useState({

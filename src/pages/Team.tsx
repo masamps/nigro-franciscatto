@@ -1,9 +1,10 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
-import { ArrowRight, Mail, Linkedin, Award, BookOpen } from "lucide-react";
+import { ArrowRight, Mail, Award, BookOpen } from "lucide-react";
 import lawyer1 from "@/assets/roberta-nigro.png";
 import lawyer2 from "@/assets/lawyer-2.jpg";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Team = () => {
   const team = [
@@ -20,7 +21,11 @@ const Team = () => {
         "Certificação em Mediação pela CNJ",
         "Membro do Instituto Brasileiro de Direito do Seguro",
         "Autor de artigos em revistas especializadas"
-      ]
+      ],
+      email: [
+        "robertanigro@nigrofranciscatto.com.br"
+      ],
+      whatsapp: []
     },
     {
       name: "Dra. Nicole Nigro",
@@ -29,17 +34,58 @@ const Team = () => {
       image: lawyer2,
       description: "Advogado especializado em litígios securitários e recursos administrativos com 15 anos de experiência. Pós-graduado em Direito do Seguro pela ENS e especialista em mediação e arbitragem. Reconhecido por sua expertise em casos de sinistros complexos.",
       education: [
-        "Pós-graduação em Direito do Seguro - ENS",
-        "Especialização em Mediação e Arbitragem - FGV",
-        "Graduação em Direito - PUC-SP"
+        "Graduação em Direito 2022 - Faculdade de Direito de Sorocaba - FADI"
       ],
       achievements: [
-        "Certificação em Mediação pela CNJ",
-        "Membro do Instituto Brasileiro de Direito do Seguro",
-        "Autor de artigos em revistas especializadas"
-      ]
+        "OAB 521.116",
+      ],
+      email: [
+        "nicolefranciscatto@nigrofranciscatto.com.br"
+      ],
+      whatsapp: []
+    },
+    {
+      name: "Dra. Roberta Carvalho dos Anjos Zuca",
+      role: "Advogada",
+      specialty: "",
+      image: lawyer2,
+      description: "Advogado especializado em litígios securitários e recursos administrativos com 15 anos de experiência. Pós-graduado em Direito do Seguro pela ENS e especialista em mediação e arbitragem. Reconhecido por sua expertise em casos de sinistros complexos.",
+      education: [
+        "Graduação em Direito 2005 - Universidade Paulista Campus Campinas/SP"
+      ],
+      achievements: [
+        "OAB 262.791",
+      ],
+      email: [
+        "robertacarvalho@nigrofranciscatto.com.br"
+      ],
+      whatsapp: []
     }
   ];
+
+  const trainee = [
+    {
+      name:"Andressa Camargo",
+      role: "Estagiária",
+      email: "analista01@nigrofranciscatto.com.br"
+    },
+    {
+      name:"Fabiana Camargo",
+      role: "Estagiária",
+      email: "analista02@nigrofranciscatto.com.br"
+    },
+    {
+      name:"Lorena Siqueira",
+      role: "Estagiária",
+      email: "analista03@nigrofranciscatto.com.br"
+    },
+
+  ];
+
+  const openWhatsApp = () => {
+    const url = `https://api.whatsapp.com/send?phone=15988151900`;
+    window.open(url, "_blank");
+  };
 
   return (
     <>
@@ -67,7 +113,7 @@ const Team = () => {
 
         {/* Team Members Section */}
         <section className="py-section bg-muted/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="space-y-16">
               {team.map((member, index) => (
                 <div 
@@ -102,10 +148,6 @@ const Team = () => {
                         </p>
                       </div>
                       
-                      <p className="font-sans text-muted-foreground text-lg leading-relaxed">
-                        {member.description}
-                      </p>
-                      
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="bg-background p-6 rounded-lg border">
                           <h3 className="font-serif text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
@@ -137,13 +179,13 @@ const Team = () => {
                       </div>
                       
                       <div className="flex gap-4">
-                        <button className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors">
-                          <Mail className="w-4 h-4" />
-                          Contato Direto
+                        <button className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors" onClick={() => openWhatsApp()}>
+                          <FaWhatsapp className="w-4 h-4" />
+                          Whatsapp
                         </button>
                         <button className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors">
-                          <Linkedin className="w-4 h-4" />
-                          LinkedIn
+                          <Mail className="w-4 h-4" />
+                          Enviar e-mail
                         </button>
                       </div>
                     </div>
@@ -153,6 +195,42 @@ const Team = () => {
             </div>
           </div>
         </section>
+
+        {/* Trainee Section */}
+        <section className="py-section bg-muted/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {trainee.map((member, index) => (
+                <div 
+                  key={index} 
+                  className="bg-card rounded-lg shadow-elegant border p-6 text-center"
+                >
+                  <div className="w-32 h-32 mx-auto rounded overflow-hidden mb-4 border">
+                    <img
+                      src={"https://via.placeholder.com/150"} // 👉 depois substituímos por fotos reais
+                      alt={`${member.name} - ${member.role}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h3 className="font-serif text-lg font-semibold text-foreground">
+                    {member.name}
+                  </h3>
+                  <p className="font-sans text-sm text-primary font-medium mb-2">
+                    {member.role}
+                  </p>
+                  <button
+                    onClick={() => window.location.href = `mailto:${member.email}`}
+                    className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors mx-auto"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Enviar e-mail
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
 
         {/* Join Team Section */}
         <section className="py-section bg-background">

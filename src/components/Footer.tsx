@@ -11,7 +11,7 @@ const Footer = () => {
               Nigro Franciscatto
             </h3>
             <p className="font-sans text-primary-foreground/80 mb-6 max-w-md">
-              Especialistas em direito securitário com mais de 15 anos de experiência. 
+              Especialistas em direito securitário com mais de 25 anos de experiência. 
               Defendemos seus direitos com ética e excelência.
             </p>
             

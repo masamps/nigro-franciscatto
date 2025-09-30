@@ -128,7 +128,7 @@ const Home = () => {
                   Experiência e Confiança em Direito Securitário
                 </h2>
                 <p className="font-sans text-lg text-muted-foreground mb-6 leading-relaxed">
-                  Fundado em 2008, nosso escritório se especializou exclusivamente em direito 
+                  Fundado em 1998, nosso escritório se especializou exclusivamente em direito 
                   securitário, desenvolvendo expertise profunda em todas as nuances desta área 
                   complexa do direito.
                 </p>

@@ -15,7 +15,8 @@ const Contact = () => {
     email: "",
     phone: "",
     subject: "",
-    message: ""
+    message: "",
+    lgpd: false,
   });
 
   const [dragActive, setDragActive] = useState(false);
@@ -24,7 +25,8 @@ const Contact = () => {
     name: "",
     email: "",
     phone: "",
-    position: ""
+    position: "",
+    lgpd: false,
   });
 
   const handleContactSubmit = async (e: React.FormEvent) => {
@@ -49,7 +51,7 @@ const Contact = () => {
         description: "Entraremos em contato em breve.",
       });
 
-      setContactForm({ name: "", email: "", phone: "", subject: "", message: "" });
+      setContactForm({ name: "", email: "", phone: "", subject: "", message: "", lgpd: false });
     } catch (error) {
       toast({
         title: "Erro ao enviar mensagem",
@@ -60,10 +62,19 @@ const Contact = () => {
   };
 
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setContactForm({
-      ...contactForm,
-      [e.target.name]: e.target.value
-    });
+    const target = e.target;
+
+    if (target instanceof HTMLInputElement && target.type === "checkbox") {
+      setContactForm({
+        ...contactForm,
+        [target.name]: target.checked,
+      });
+    } else {
+      setContactForm({
+        ...contactForm,
+        [target.name]: target.value,
+      });
+    }
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -115,6 +126,15 @@ const Contact = () => {
 
     if (!uploadedFile) return;
 
+    if (!resumeForm.lgpd) {
+      toast({
+        title: "Consentimento LGPD necessário",
+        description: "Você precisa aceitar a Política de Privacidade antes de enviar seu currículo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
     const filePath = `${Date.now()}-${uploadedFile.name}`;
     const { data: fileData, error: uploadError } = await supabase.storage
@@ -150,7 +170,7 @@ const Contact = () => {
     });
 
     setUploadedFile(null);
-    setResumeForm({ name: "", email: "", phone: "", position: "" });
+    setResumeForm({ name: "", email: "", phone: "", position: "", lgpd: false });
   } catch (error) {
     console.error(error);
     toast({
@@ -162,10 +182,17 @@ const Contact = () => {
   };
 
   const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setResumeForm({
-      ...resumeForm,
-      [e.target.name]: e.target.value
-    });
+    if (e.target instanceof HTMLInputElement && e.target.type === "checkbox") {
+      setResumeForm({
+        ...resumeForm,
+        [e.target.name]: e.target.checked,
+      });
+    } else {
+      setResumeForm({
+        ...resumeForm,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   return (
@@ -350,6 +377,29 @@ const Contact = () => {
                         <option value="outros">Outros</option>
                       </select>
                     </div>
+
+                    <div className="flex items-start gap-2">
+                      <input
+                        type="checkbox"
+                        id="contact-lgpd"
+                        name="lgpd"
+                        checked={contactForm.lgpd}
+                        onChange={handleContactChange}
+                        className="mt-1 w-4 h-4 border border-input rounded"
+                        required
+                      />
+                      <label htmlFor="contact-lgpd" className="text-sm text-muted-foreground">
+                        Li e concordo com a{" "}
+                        <a
+                          href="/nigro-franciscatto/privacidade"
+                          target="_blank"
+                          className="text-primary underline hover:text-primary/80"
+                        >
+                          Política de Privacidade
+                        </a>{" "}
+                        e autorizo o uso dos meus dados conforme a LGPD.
+                      </label>
+                    </div>
                   </div>
                   
                   <div>
@@ -465,6 +515,29 @@ const Contact = () => {
                       <option value="administrativo">Área Administrativa</option>
                     </select>
                   </div>
+                </div>
+
+                <div className="flex items-start gap-2">
+                  <input
+                    type="checkbox"
+                    id="resume-lgpd"
+                    name="lgpd"
+                    checked={resumeForm.lgpd}
+                    onChange={handleResumeChange}
+                    className="mt-1 w-4 h-4 border border-input rounded"
+                    required
+                  />
+                  <label htmlFor="resume-lgpd" className="text-sm text-muted-foreground">
+                    Li e concordo com a{" "}
+                    <a
+                      href="/nigro-franciscatto/privacidade"
+                      target="_blank"
+                      className="text-primary underline hover:text-primary/80"
+                    >
+                      Política de Privacidade
+                    </a>{" "}
+                    e autorizo o uso dos meus dados conforme a LGPD.
+                  </label>
                 </div>
 
                 <div>

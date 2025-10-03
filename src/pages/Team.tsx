@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Mail, Award, BookOpen } from "lucide-react";
 import lawyer1 from "@/assets/roberta-nigro.png";
 import lawyer2 from "@/assets/lawyer-2.jpg";
+import noPic from "@/assets/noPicFem.jpg";
 import { FaWhatsapp } from "react-icons/fa";
 
 const Team = () => {
@@ -31,7 +32,7 @@ const Team = () => {
       name: "Dra. Nicole Nigro",
       role: "Sócia",
       specialty: "Litígios e Recursos",
-      image: lawyer2,
+      image: noPic,
       description: "Advogado especializado em litígios securitários e recursos administrativos com 15 anos de experiência. Pós-graduado em Direito do Seguro pela ENS e especialista em mediação e arbitragem. Reconhecido por sua expertise em casos de sinistros complexos.",
       education: [
         "Graduação em Direito 2022 - Faculdade de Direito de Sorocaba - FADI"
@@ -48,7 +49,7 @@ const Team = () => {
       name: "Dra. Roberta Carvalho dos Anjos Zuca",
       role: "Advogada",
       specialty: "",
-      image: lawyer2,
+      image: noPic,
       description: "Advogado especializado em litígios securitários e recursos administrativos com 15 anos de experiência. Pós-graduado em Direito do Seguro pela ENS e especialista em mediação e arbitragem. Reconhecido por sua expertise em casos de sinistros complexos.",
       education: [
         "Graduação em Direito 2005 - Universidade Paulista Campus Campinas/SP"
@@ -67,17 +68,20 @@ const Team = () => {
     {
       name:"Andressa Camargo",
       role: "Estagiária",
-      email: "analista01@nigrofranciscatto.com.br"
+      email: "analista01@nigrofranciscatto.com.br",
+      image: noPic,
     },
     {
       name:"Fabiana Camargo",
       role: "Estagiária",
-      email: "analista02@nigrofranciscatto.com.br"
+      email: "analista02@nigrofranciscatto.com.br",
+      image: noPic,
     },
     {
       name:"Lorena Siqueira",
       role: "Estagiária",
-      email: "analista03@nigrofranciscatto.com.br"
+      email: "analista03@nigrofranciscatto.com.br",
+      image: noPic,
     },
 
   ];
@@ -207,7 +211,7 @@ const Team = () => {
                 >
                   <div className="w-32 h-32 mx-auto rounded overflow-hidden mb-4 border">
                     <img
-                      src={"https://via.placeholder.com/150"} // 👉 depois substituímos por fotos reais
+                      src={member.image} // 👉 depois substituímos por fotos reais
                       alt={`${member.name} - ${member.role}`}
                       className="w-full h-full object-cover"
                     />

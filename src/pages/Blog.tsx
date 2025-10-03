@@ -1,16 +1,25 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
-import { Calendar, User, ArrowRight, Tag, Clock, Search } from "lucide-react";
+import { Calendar, User, ArrowRight, Clock, Search, Plus } from "lucide-react";
 import { useState } from "react";
+import AddArticleModal from "@/components/AddArticleModal.tsx"; // importa o modal
+
+interface Article {
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  category: string;
+  readTime: string;
+  featured: boolean;
+}
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
-
-  const categories = ["Todos", "Legislação", "Direitos", "Contratos", "Jurisprudência", "Dicas"];
-
-  const articles = [
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [articles, setArticles] = useState<Article[]>([
     {
       title: "Mudanças na Lei de Seguros: O que Você Precisa Saber",
       excerpt: "Análise completa das principais alterações na legislação securitária e seus impactos práticos para segurados e seguradoras. Entenda como as novas regras afetam seus direitos.",
@@ -83,7 +92,9 @@ const Blog = () => {
       readTime: "11 min",
       featured: false
     }
-  ];
+  ]);
+
+  const categories = ["Todos", "Legislação", "Direitos", "Contratos", "Jurisprudência", "Dicas"];
 
   const filteredArticles = articles.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -94,6 +105,11 @@ const Blog = () => {
 
   const featuredArticles = filteredArticles.filter(article => article.featured);
   const regularArticles = filteredArticles.filter(article => !article.featured);
+
+  // função que será chamada quando um novo artigo for adicionado no modal
+  const handleArticleAdded = (newArticle: Article) => {
+    setArticles(prev => [newArticle, ...prev]);
+  };
 
   return (
     <>
@@ -317,6 +333,22 @@ const Blog = () => {
           </div>
         </section>
       </main>
+
+    <div className="fixed bottom-6 right-6">
+  <Button
+    onClick={() => setIsModalOpen(true)}
+    className="rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+  >
+    <Plus className="w-6 h-6" />
+  </Button>
+</div>
+
+{/* Modal */}
+<AddArticleModal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  onArticleAdded={handleArticleAdded}
+/>
     </>
   );
 };

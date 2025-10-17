@@ -280,22 +280,20 @@ const Contact = () => {
                       <p className="text-muted-foreground">
                         Segunda a Sexta: 8h às 18h<br />
                         Sábado: 8h às 12h<br />
-                        <span className="text-sm">*Atendimento de urgência 24h</span>
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Map Placeholder */}
-                <div className="mt-8">
-                  <h3 className="font-semibold text-foreground mb-4">Localização</h3>
-                  <div className="aspect-video bg-muted rounded-lg flex items-center justify-center border">
-                    <div className="text-center">
-                      <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-muted-foreground">Localização no Mapa</p>
-                      <p className="text-sm text-muted-foreground">Av. Paulista, 1000 - São Paulo/SP</p>
-                    </div>
-                  </div>
+                <div className="w-full flex justify-center items-center bg-gray-50 p-6 rounded-xl shadow-elegant">
+                  <iframe
+                    className="rounded-lg shadow-lg w-full h-[200px] max-w-6xl"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3676.0140050956857!2d-47.211891023730615!3d-22.875941036771277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8b93cd2a6933f%3A0x4f170e2462b44684!2sMetropolitan%20Office%20Tower!5e0!3m2!1spt-BR!2sbr!4v1760658304258!5m2!1spt-BR!2sbr"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
                 </div>
               </div>
               

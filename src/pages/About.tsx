@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Award, Users, Target, Globe } from "lucide-react";
-import officeMeeting from "@/assets/office-meeting.jpg";
+import mesaNigro from "@/assets/mesaNigro.png";
 
 const About = () => {
   const values = [
@@ -30,7 +30,7 @@ const About = () => {
 
   const timeline = [
     {
-      year: "2008",
+      year: "1998",
       title: "Fundação do Escritório",
       description: "Início das atividades com foco exclusivo em direito securitário"
     },
@@ -77,7 +77,7 @@ const About = () => {
                 
                 <div className="space-y-6 text-lg">
                   <p className="font-sans text-muted-foreground leading-relaxed">
-                    Fundado em 2008, nosso escritório especializa-se em direito securitário, 
+                    Fundado em 1998, nosso escritório especializa-se em direito securitário, 
                     oferecendo assessoria jurídica completa para seguradoras, corretoras e segurados. 
                     Nossa experiência abrange desde consultorias preventivas até litígios complexos.
                   </p>
@@ -111,9 +111,9 @@ const About = () => {
               
               <div className="relative">
                 <img 
-                  src={officeMeeting} 
+                  src={mesaNigro} 
                   alt="Reunião no escritório de advocacia especializado em seguros"
-                  className="rounded-lg shadow-elegant w-full h-[600px] object-cover"
+                  className="rounded-lg shadow-elegant w-full max-h-[600px object-contain"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-lg"></div>
               </div>
@@ -257,7 +257,7 @@ const About = () => {
 
             <div className="grid md:grid-cols-4 gap-8 text-center">
               <div className="bg-card p-8 rounded-lg shadow-sm border">
-                <div className="text-4xl font-bold text-primary mb-2">15+</div>
+                <div className="text-4xl font-bold text-primary mb-2">25+</div>
                 <div className="font-sans text-muted-foreground">Anos de Experiência</div>
               </div>
               <div className="bg-card p-8 rounded-lg shadow-sm border">

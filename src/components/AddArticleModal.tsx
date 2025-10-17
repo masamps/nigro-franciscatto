@@ -17,6 +17,7 @@ export type Article = {
   category: string;
   readTime: string;
   featured: boolean;
+  content: string;
 };
 
 interface AddArticleModalProps {
@@ -33,7 +34,14 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
 }) => {
   const [step, setStep] = useState<"login" | "form">("login");
   const [loginData, setLoginData] = useState({ username: "", password: "" });
-  const [articleData, setArticleData] = useState({ title: "", content: "" });
+  const [articleData, setArticleData] = useState({
+    title: "",
+    content: "",
+    excerpt: "",
+    category: "",
+    readTime: "",
+    featured: false,
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -57,12 +65,23 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
       .from("usuarios")
       .select("*")
       .eq("username", loginData.username)
-      .eq("senha", loginData.password) // ⚠️ ideal: senha encriptada
-      .single();
+      .limit(1);
 
     setLoading(false);
 
-    if (error || !data) {
+    if (error || !data || data.length === 0) {
+      setError("Usuário não encontrado");
+      return;
+    }
+
+    const user = data[0];
+    const { data: validUser, error: authError } = await supabase
+      .rpc("verifica_senha", {
+        p_username: loginData.username,
+        p_senha: loginData.password,
+      });
+
+    if (authError || !validUser) {
       setError("Usuário ou senha inválidos");
       return;
     }
@@ -71,8 +90,11 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
   };
 
   const handleAddArticle = async () => {
-    if (!articleData.title || !articleData.content) {
-      setError("Preencha todos os campos");
+    const { title, content, excerpt, category, readTime, featured } =
+      articleData;
+
+    if (!title || !content || !excerpt || !category || !readTime) {
+      setError("Preencha todos os campos obrigatórios");
       return;
     }
 
@@ -81,8 +103,14 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
 
     const { error } = await supabase.from("articles").insert([
       {
-        title: articleData.title,
-        content: articleData.content,
+        title,
+        content,
+        excerpt,
+        author: "Dra. Roberta Nigro", // 🔹 valor fixo
+        date: new Date().toISOString(),
+        category,
+        readTime,
+        featured,
       },
     ]);
 
@@ -93,22 +121,26 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
       return;
     }
 
-    // 🔹 Monta um objeto Article para enviar de volta ao Blog
     const newArticle: Article = {
-      title: articleData.title,
-      excerpt: articleData.content.substring(0, 120) + "...", // usa parte do conteúdo como resumo
-      author: loginData.username || "Autor Desconhecido",
+      title,
+      content,
+      excerpt,
+      author: "Dra. Roberta Nigro",
       date: new Date().toLocaleDateString("pt-BR"),
-      category: "Outros",
-      readTime: "5 min",
-      featured: false,
+      category,
+      readTime,
+      featured,
     };
 
-    // chama callback do pai
     onArticleAdded(newArticle);
-
-    // reseta o estado
-    setArticleData({ title: "", content: "" });
+    setArticleData({
+      title: "",
+      content: "",
+      excerpt: "",
+      category: "",
+      readTime: "",
+      featured: false,
+    });
     setStep("login");
     onClose();
   };
@@ -150,6 +182,7 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
           <>
             <h2 className="text-xl font-bold mb-4">Novo Artigo</h2>
             {error && <p className="text-red-500 mb-2">{error}</p>}
+
             <Input
               name="title"
               placeholder="Título"
@@ -162,8 +195,39 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
               placeholder="Conteúdo"
               value={articleData.content}
               onChange={handleArticleChange}
-              className="mb-4"
+              className="mb-2"
             />
+            <Textarea
+              name="excerpt"
+              placeholder="Resumo"
+              value={articleData.excerpt}
+              onChange={handleArticleChange}
+              className="mb-2"
+            />
+            <Input
+              name="category"
+              placeholder="Categoria"
+              value={articleData.category}
+              onChange={handleArticleChange}
+              className="mb-2"
+            />
+            <Input
+              name="readTime"
+              placeholder="Tempo de leitura (ex: 5 min)"
+              value={articleData.readTime}
+              onChange={handleArticleChange}
+              className="mb-2"
+            />
+            <label className="flex items-center gap-2 mb-4">
+              <input
+                type="checkbox"
+                name="featured"
+                checked={articleData.featured}
+                onChange={handleArticleChange}
+              />
+              <span>Destaque</span>
+            </label>
+
             <div className="flex justify-end gap-2">
               <Button onClick={() => setStep("login")} variant="secondary">
                 Voltar

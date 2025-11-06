@@ -60,7 +60,7 @@ const About = () => {
     <>
       <Helmet>
         <title>Sobre Nós | Advocacia em Seguros - História e Valores</title>
-        <meta name="description" content="Conheça a história do nosso escritório de advocacia especializado em seguros. Fundado em 2008, somos referência em direito securitário com ética e excelência." />
+        <meta name="description" content="Conheça a história do nosso escritório de advocacia especializado em seguros. Fundado em 1998, somos referência em direito securitário com ética e excelência." />
         <meta name="keywords" content="sobre advocacia seguros, história escritório, valores advocacia, ética profissional" />
         <link rel="canonical" href="https://advocaciaseguros.com.br/sobre" />
       </Helmet>
@@ -74,23 +74,43 @@ const About = () => {
                 <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
                   Sobre o Nosso Escritório
                 </h1>
-                
+
                 <div className="space-y-6 text-lg">
                   <p className="font-sans text-muted-foreground leading-relaxed">
-                    Fundado em 1998, nosso escritório especializa-se em direito securitário, 
-                    oferecendo assessoria jurídica completa para seguradoras, corretoras e segurados. 
-                    Nossa experiência abrange desde consultorias preventivas até litígios complexos.
+                    Fundada em <strong className="text-foreground">1998</strong>, a{" "}
+                    <strong className="text-foreground">Nigro Franciscatto Advocacia</strong>{" "}
+                    nasceu com o propósito de oferecer{" "}
+                    <strong>assessoria jurídica especializada em direito securitário</strong>,
+                    aliando técnica, experiência e comprometimento.
                   </p>
-                  
+
                   <p className="font-sans text-muted-foreground leading-relaxed">
-                    <strong className="text-foreground">Nossa missão</strong> é proteger os direitos 
-                    de nossos clientes com excelência técnica, ética profissional e atendimento 
+                    A trajetória de sua fundadora começou ainda em{" "}
+                    <strong className="text-foreground">1994</strong>, quando iniciou sua carreira
+                    na área de sinistros em uma seguradora. Essa vivência prática, somada à formação
+                    em Direito e ao curso de corretora de seguros, trouxe uma visão completa do
+                    mercado e fortaleceu sua atuação tanto no{" "}
+                    <strong>ressarcimento de sinistros</strong> quanto na{" "}
+                    <strong>defesa de seguradoras em ações judiciais</strong>.
+                  </p>
+
+                  <p className="font-sans text-muted-foreground leading-relaxed">
+                    Com mais de duas décadas de experiência, o escritório se consolidou como
+                    referência em <strong>advocacia voltada ao setor de seguros</strong>, prezando
+                    sempre pela ética, eficiência e confiança em cada caso.
+                  </p>
+
+                  <p className="font-sans text-muted-foreground leading-relaxed">
+                    Hoje, a Nigro Franciscatto segue comprometida em oferecer{" "}
+                    <strong>soluções jurídicas inteligentes e personalizadas</strong>, ajudando{" "}
+                    <strong>seguradoras, corretoras e segurados</strong> a atuarem com segurança e
+                    tranquilidade em um mercado cada vez mais dinâmico.
+                  </p>
+
+                  <p className="font-sans text-muted-foreground leading-relaxed">
+                    <strong className="text-foreground">Nossa missão</strong> é proteger os direitos
+                    de nossos clientes com excelência técnica, ética profissional e atendimento
                     personalizado, garantindo soluções jurídicas eficazes e inovadoras.
-                  </p>
-                  
-                  <p className="font-sans text-muted-foreground leading-relaxed">
-                    Acreditamos que a advocacia vai além da representação legal - é sobre construir 
-                    relacionamentos duradouros baseados na confiança, transparência e resultados excepcionais.
                   </p>
                 </div>
 
@@ -102,18 +122,16 @@ const About = () => {
                     </Link>
                   </Button>
                   <Button variant="outline" asChild>
-                    <Link to="/areas-atuacao">
-                      Áreas de Atuação
-                    </Link>
+                    <Link to="/areas-atuacao">Áreas de Atuação</Link>
                   </Button>
                 </div>
               </div>
-              
+
               <div className="relative">
-                <img 
-                  src={mesaNigro} 
-                  alt="Reunião no escritório de advocacia especializado em seguros"
-                  className="rounded-lg shadow-elegant w-full max-h-[600px object-contain"
+                <img
+                  src={mesaNigro}
+                  alt="Reunião no escritório Nigro Franciscatto Advocacia"
+                  className="rounded-lg shadow-elegant w-full max-h-[600px] object-contain"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-lg"></div>
               </div>

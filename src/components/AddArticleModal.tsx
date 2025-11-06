@@ -15,7 +15,7 @@ export type Article = {
   author: string;
   date: string;
   category: string;
-  readTime: string;
+  read_time: string;
   featured: boolean;
   content: string;
 };
@@ -39,7 +39,7 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
     content: "",
     excerpt: "",
     category: "",
-    readTime: "",
+    read_time: "",
     featured: false,
   });
   const [loading, setLoading] = useState(false);
@@ -90,10 +90,10 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
   };
 
   const handleAddArticle = async () => {
-    const { title, content, excerpt, category, readTime, featured } =
+    const { title, content, excerpt, category, read_time, featured } =
       articleData;
 
-    if (!title || !content || !excerpt || !category || !readTime) {
+    if (!title || !content || !excerpt || !category || !read_time) {
       setError("Preencha todos os campos obrigatórios");
       return;
     }
@@ -109,7 +109,7 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
         author: "Dra. Roberta Nigro", // 🔹 valor fixo
         date: new Date().toISOString(),
         category,
-        readTime,
+        read_time,
         featured,
       },
     ]);
@@ -128,7 +128,7 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
       author: "Dra. Roberta Nigro",
       date: new Date().toLocaleDateString("pt-BR"),
       category,
-      readTime,
+      read_time,
       featured,
     };
 
@@ -138,7 +138,7 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
       content: "",
       excerpt: "",
       category: "",
-      readTime: "",
+      read_time: "",
       featured: false,
     });
     setStep("login");
@@ -212,9 +212,9 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
               className="mb-2"
             />
             <Input
-              name="readTime"
+              name="read_time"
               placeholder="Tempo de leitura (ex: 5 min)"
-              value={articleData.readTime}
+              value={articleData.read_time}
               onChange={handleArticleChange}
               className="mb-2"
             />

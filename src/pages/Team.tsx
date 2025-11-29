@@ -19,9 +19,10 @@ const Team = () => {
         "Graduação em Direito - Instituição Toledo de Ensino - Faculdade de Direito de Bauru"
       ],
       achievements: [
-        "Certificação em Mediação pela CNJ",
-        "Membro do Instituto Brasileiro de Direito do Seguro",
-        "Autor de artigos em revistas especializadas"
+        "OAB/SP 133.443",
+        "OAB/MG 161.797",
+        "OAB/MS 10.848-A",
+        "OAB/MT 15.249-A",
       ],
       email: [
         "robertanigro@nigrofranciscatto.com.br"
@@ -75,12 +76,6 @@ const Team = () => {
       name:"Fabiana Camargo",
       role: "Estagiária",
       email: "analista02@nigrofranciscatto.com.br",
-      image: noPic,
-    },
-    {
-      name:"Lorena Siqueira",
-      role: "Estagiária",
-      email: "analista03@nigrofranciscatto.com.br",
       image: noPic,
     },
 

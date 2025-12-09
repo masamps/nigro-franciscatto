@@ -389,7 +389,7 @@ const Contact = () => {
                       <label htmlFor="contact-lgpd" className="text-sm text-muted-foreground">
                         Li e concordo com a{" "}
                         <a
-                          href="/nigro-franciscatto/privacidade"
+                          href="/privacidade"
                           target="_blank"
                           className="text-primary underline hover:text-primary/80"
                         >
@@ -528,7 +528,7 @@ const Contact = () => {
                   <label htmlFor="resume-lgpd" className="text-sm text-muted-foreground">
                     Li e concordo com a{" "}
                     <a
-                      href="/nigro-franciscatto/privacidade"
+                      href="/privacidade"
                       target="_blank"
                       className="text-primary underline hover:text-primary/80"
                     >

@@ -38,37 +38,37 @@ const Footer = () => {
             <h4 className="font-serif text-lg font-semibold mb-6">Links Rápidos</h4>
             <nav className="space-y-3">
               <a 
-                href="/nigro-franciscatto/sobre" 
+                href="/sobre" 
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Sobre o Escritório
               </a>
               <a 
-                href="/nigro-franciscatto/areas-atuacao" 
+                href="/areas-atuacao" 
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Áreas de Atuação
               </a>
               <a 
-                href="/nigro-franciscatto/equipe" 
+                href="/equipe" 
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Nossa Equipe
               </a>
               <a 
-                href="/nigro-franciscatto/artigos" 
+                href="/artigos" 
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Artigos & Novidades
               </a>
               <a 
-                href="/nigro-franciscatto/contato" 
+                href="/contato" 
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Contato
               </a>
               <a 
-                href="/nigro-franciscatto/privacidade" 
+                href="/privacidade" 
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Política de Privacidade (LGPD)

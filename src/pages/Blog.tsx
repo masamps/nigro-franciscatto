@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/custom-button";
 import { Calendar, User, ArrowRight, Clock, Search, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 import AddArticleModal from "@/components/AddArticleModal.tsx";
+import ArticleDetailsModal from "@/components/ArticleDetailsModal.tsx";
 import { supabase } from "@/lib/supabaseClient"; // <-- importante: ajustar o caminho conforme seu projeto
 
 interface Article {
@@ -24,6 +25,8 @@ const Blog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);  
 
   const categories = ["Todos", "Legislação", "Direitos", "Contratos", "Jurisprudência", "Dicas"];
 
@@ -180,7 +183,13 @@ const Blog = () => {
                             </div>
                           </div>
 
-                          <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+                          <button
+                            className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+                            onClick={() => {
+                              setSelectedArticle(article);
+                              setIsDetailsOpen(true);
+                            }}
+                          >
                             Ler artigo completo
                             <ArrowRight className="w-4 h-4" />
                           </button>
@@ -268,6 +277,11 @@ const Blog = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onArticleAdded={handleArticleAdded}
+        />
+        <ArticleDetailsModal
+          isOpen={isDetailsOpen}
+          onClose={() => setIsDetailsOpen(false)}
+          article={selectedArticle}
         />
       </main>
     </>

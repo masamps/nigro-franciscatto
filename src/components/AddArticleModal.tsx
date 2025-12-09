@@ -18,6 +18,7 @@ export type Article = {
   read_time: string;
   featured: boolean;
   content: string;
+  pdf_url?: string | null;
 };
 
 interface AddArticleModalProps {
@@ -42,6 +43,7 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
     read_time: "",
     featured: false,
   });
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -75,11 +77,13 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
     }
 
     const user = data[0];
-    const { data: validUser, error: authError } = await supabase
-      .rpc("verifica_senha", {
+    const { data: validUser, error: authError } = await supabase.rpc(
+      "verifica_senha",
+      {
         p_username: loginData.username,
         p_senha: loginData.password,
-      });
+      }
+    );
 
     if (authError || !validUser) {
       setError("Usuário ou senha inválidos");
@@ -90,60 +94,95 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
   };
 
   const handleAddArticle = async () => {
-    const { title, content, excerpt, category, read_time, featured } =
-      articleData;
+  const { title, content, excerpt, category, read_time, featured } = articleData;
 
-    if (!title || !content || !excerpt || !category || !read_time) {
-      setError("Preencha todos os campos obrigatórios");
+  if (!title || !content || !excerpt || !category || !read_time) {
+    setError("Preencha todos os campos obrigatórios");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  let pdfUrl: string | null = null;
+
+  // 🔹 Upload do PDF (se existir)
+  if (pdfFile) {
+    const fileName = `${Date.now()}_${pdfFile.name}`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("article") // <- bucket correto
+      .upload(`files/${fileName}`, pdfFile, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Erro upload:", uploadError);
+      setLoading(false);
+      setError("Erro ao enviar PDF");
       return;
     }
 
-    setLoading(true);
-    setError("");
+    const { data: publicUrlData } = supabase.storage
+      .from("article")
+      .getPublicUrl(`files/${fileName}`);
 
-    const { error } = await supabase.from("articles").insert([
-      {
-        title,
-        content,
-        excerpt,
-        author: "Dra. Roberta Nigro", // 🔹 valor fixo
-        date: new Date().toISOString(),
-        category,
-        read_time,
-        featured,
-      },
-    ]);
+    pdfUrl = publicUrlData?.publicUrl || null;
+  }
 
-    setLoading(false);
-
-    if (error) {
-      setError("Erro ao adicionar artigo");
-      return;
-    }
-
-    const newArticle: Article = {
+  // 🔹 Inserir artigo no banco
+  const { error } = await supabase.from("articles").insert([
+    {
       title,
       content,
       excerpt,
-      author: "Dra. Roberta Nigro",
-      date: new Date().toLocaleDateString("pt-BR"),
+      author: "Dra. Roberta Nigro", // fixo
+      date: new Date().toISOString(),
       category,
       read_time,
       featured,
-    };
+      pdf_url: pdfUrl,
+    },
+  ]);
 
-    onArticleAdded(newArticle);
-    setArticleData({
-      title: "",
-      content: "",
-      excerpt: "",
-      category: "",
-      read_time: "",
-      featured: false,
-    });
-    setStep("login");
-    onClose();
+  setLoading(false);
+
+  if (error) {
+    console.error("Erro insert:", error);
+    setError("Erro ao adicionar artigo");
+    return;
+  }
+
+  const newArticle: Article = {
+    title,
+    content,
+    excerpt,
+    author: "Dra. Roberta Nigro",
+    date: new Date().toLocaleDateString("pt-BR"),
+    category,
+    read_time,
+    featured,
+    pdf_url: pdfUrl,
   };
+
+  onArticleAdded(newArticle);
+
+  // Resetar campos
+  setArticleData({
+    title: "",
+    content: "",
+    excerpt: "",
+    category: "",
+    read_time: "",
+    featured: false,
+  });
+
+  setPdfFile(null);
+  setStep("login");
+  onClose();
+};
+
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -218,12 +257,44 @@ const AddArticleModal: React.FC<AddArticleModalProps> = ({
               onChange={handleArticleChange}
               className="mb-2"
             />
+
+            {/* 🔹 Input de PDF */}
+           <div className="mb-4">
+              <input
+                id="pdf-upload"
+                type="file"
+                accept="application/pdf"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  setPdfFile(file);
+                }}
+              />
+
+              <Button
+                type="button"
+                variant="secondary"
+                className="w-full cursor-pointer"
+                onClick={() => {
+                  const input = document.getElementById("pdf-upload") as HTMLInputElement;
+                  input?.click(); // 👈 FORÇA A ABERTURA DO SELECTOR
+                }}
+              >
+                {pdfFile ? `PDF selecionado: ${pdfFile.name}` : "Selecionar PDF"}
+              </Button>
+            </div>
+
             <label className="flex items-center gap-2 mb-4">
               <input
                 type="checkbox"
                 name="featured"
                 checked={articleData.featured}
-                onChange={handleArticleChange}
+                onChange={(e) =>
+                  setArticleData({
+                    ...articleData,
+                    featured: e.target.checked,
+                  })
+                }
               />
               <span>Destaque</span>
             </label>

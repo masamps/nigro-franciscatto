@@ -28,7 +28,7 @@ const App = () => (
           <ScrollToTop />
           <Header />
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/sobre" element={<About />} />
             <Route path="/equipe" element={<Team />} />
             <Route path="/areas-atuacao" element={<Services />} />

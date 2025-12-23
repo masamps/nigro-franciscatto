@@ -35,7 +35,6 @@ const Home = () => {
         <title>Nigro Franciscatto</title>
         <meta name="description" content="Escritório de advocacia especializado em seguros com mais de 15 anos de experiência. Consultoria jurídica, análise de apólices e defesa de direitos." />
         <meta name="keywords" content="advocacia, seguros, direito securitário, consultoria jurídica, análise apólice, São Paulo" />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/" />
       </Helmet>
 
       <div className="min-h-screen">

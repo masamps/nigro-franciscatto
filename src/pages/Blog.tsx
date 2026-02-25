@@ -28,7 +28,7 @@ const Blog = () => {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);  
 
-  const categories = ["Todos", "Legislação", "Direitos", "Contratos", "Jurisprudência", "Dicas"];
+  const categories = ["Todos", ...Array.from(new Set(articles.map(a => a.category).filter(Boolean))).sort()];
 
   const fetchArticles = async () => {
     setLoading(true);
@@ -64,6 +64,11 @@ const Blog = () => {
 
   const featuredArticles = filteredArticles.filter(article => article.featured);
   const regularArticles = filteredArticles.filter(article => !article.featured);
+
+  const formatDate = (dateString: string) => {
+    const [year, month, day] = dateString.split("T")[0].split("-");
+    return `${day}/${month}/${year}`;
+  };
 
   return (
     <>
@@ -179,7 +184,7 @@ const Blog = () => {
 
                             <div className="flex items-center gap-2">
                               <Calendar className="w-4 h-4" />
-                              <span>{article.date}</span>
+                              <span>{formatDate(article.date)}</span>
                             </div>
                           </div>
 
@@ -244,7 +249,7 @@ const Blog = () => {
 
                             <div className="flex items-center gap-2">
                               <Calendar className="w-4 h-4" />
-                              <span>{article.date}</span>
+                              <span>{formatDate(article.date)}</span>
                             </div>
                           </div>
 

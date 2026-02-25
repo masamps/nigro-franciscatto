@@ -9,11 +9,10 @@ const Header = () => {
   const location = useLocation();
 
   const navigation = [
-    { name: "Home", href: "/" },
     { name: "Sobre Nós", href: "/sobre" },
-    { name: "Nossos Colaboradores", href: "/equipe" },
+    { name: "Equipe", href: "/equipe" },
     { name: "Áreas de Atuação", href: "/areas-atuacao" },
-    { name: "Artigos e Novidades", href: "/artigos" },
+    { name: "Artigos", href: "/artigos" },
     { name: "Depoimentos", href: "/depoimentos" },
   ];
 
@@ -45,7 +44,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`font-sans font-medium transition-colors hover:text-primary ${
+                className={`font-sans font-medium inline-block transition-all duration-200 hover:text-primary hover:-translate-y-0.5 ${
                   isActive(item.href)
                     ? "text-primary border-b-2 border-primary pb-1"
                     : "text-foreground"

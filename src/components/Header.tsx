@@ -14,6 +14,7 @@ const Header = () => {
     { name: "Nossos Colaboradores", href: "/equipe" },
     { name: "Áreas de Atuação", href: "/areas-atuacao" },
     { name: "Artigos e Novidades", href: "/artigos" },
+    { name: "Depoimentos", href: "/depoimentos" },
   ];
 
   const isActive = (href: string) => {

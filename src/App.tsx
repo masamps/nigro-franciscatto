@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import Privacy from "./pages/Privacy";
+import Testimonials from "./pages/Testimonials";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/artigos" element={<Blog />} />
             <Route path="/contato" element={<Contact />} />
             <Route path="/privacidade" element={<Privacy />} />
+            <Route path="/depoimentos" element={<Testimonials />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

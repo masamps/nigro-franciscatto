@@ -124,7 +124,7 @@ const Footer = () => {
               © 2025 Nigro Franciscatto. Todos os direitos reservados.
             </p>
             <p className="text-xs text-primary-foreground/40 mt-1">
-              OAB/SP 123.456 | CNPJ: 11.234.512/0001-39
+              OAB/SP 133.443 | CNPJ: 11.234.512/0001-39
             </p>
           </div>
         </div>

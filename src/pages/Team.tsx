@@ -2,8 +2,10 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Mail, Award, BookOpen } from "lucide-react";
-import lawyer1 from "@/assets/roberta-nigro.png";
-import lawyer2 from "@/assets/lawyer-2.jpg";
+import lawyer1 from "@/assets/roberta-nigro.jpg";
+import lawyer2 from "@/assets/nicole-nigro.jpg";
+import lawyer3 from "@/assets/andressa.jpg";
+import lawyer4 from "@/assets/fabiana.jpg";
 import noPic from "@/assets/noPicFem.jpg";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -33,7 +35,7 @@ const Team = () => {
       name: "Dra. Nicole Nigro",
       role: "Sócia",
       specialty: "Litígios e Recursos",
-      image: noPic,
+      image: lawyer2,
       description: "Advogado especializado em litígios securitários e recursos administrativos com 15 anos de experiência. Pós-graduado em Direito do Seguro pela ENS e especialista em mediação e arbitragem. Reconhecido por sua expertise em casos de sinistros complexos.",
       education: [
         "Graduação em Direito 2022 - Faculdade de Direito de Sorocaba - FADI"
@@ -70,13 +72,13 @@ const Team = () => {
       name:"Andressa Camargo",
       role: "Estagiária",
       email: "analista01@nigrofranciscatto.com.br",
-      image: noPic,
+      image: lawyer3,
     },
     {
       name:"Fabiana Camargo",
       role: "Estagiária",
       email: "analista02@nigrofranciscatto.com.br",
-      image: noPic,
+      image: lawyer4,
     },
 
   ];

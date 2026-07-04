@@ -12,7 +12,7 @@ const Header = () => {
     { name: "Sobre Nós", href: "/sobre" },
     { name: "Equipe", href: "/equipe" },
     { name: "Áreas de Atuação", href: "/areas-atuacao" },
-    { name: "Artigos", href: "/artigos" },
+    { name: "Artigos", href: "/artigos", highlight: true },
     { name: "Depoimentos", href: "/depoimentos" },
   ];
 
@@ -40,19 +40,29 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`font-sans font-medium inline-block transition-all duration-200 hover:text-primary hover:-translate-y-0.5 ${
-                  isActive(item.href)
-                    ? "text-primary border-b-2 border-primary pb-1"
-                    : "text-foreground"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) =>
+              item.highlight ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="font-sans font-semibold inline-block px-4 py-2 rounded-full bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/90 hover:-translate-y-0.5"
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`font-sans font-medium inline-block transition-all duration-200 hover:text-primary hover:-translate-y-0.5 ${
+                    isActive(item.href)
+                      ? "text-primary border-b-2 border-primary pb-1"
+                      : "text-foreground"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              )
+            )}
           </nav>
 
           {/* Desktop CTA */}
@@ -84,10 +94,12 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`block px-3 py-3 rounded-lg font-sans font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "text-primary bg-primary/5"
-                      : "text-foreground hover:bg-accent"
+                  className={`block px-3 py-3 rounded-lg font-sans transition-colors ${
+                    item.highlight
+                      ? "bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
+                      : isActive(item.href)
+                      ? "text-primary bg-primary/5 font-medium"
+                      : "text-foreground font-medium hover:bg-accent"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >

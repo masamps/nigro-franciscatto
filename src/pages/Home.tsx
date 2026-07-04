@@ -1,11 +1,49 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
-import { ArrowRight, Shield, Users, Scale, TrendingUp } from "lucide-react";
+import { ArrowRight, Shield, Users, Scale, TrendingUp, BookOpen, Calendar, Clock, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import heroBackground from "@/assets/hero-background.jpg";
 import officeMeeting from "@/assets/office-meeting.jpg";
 
+interface Article {
+  id?: number;
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  category: string;
+  read_time: string;
+  featured: boolean;
+}
+
 const Home = () => {
+  const [latestArticles, setLatestArticles] = useState<Article[]>([]);
+
+  useEffect(() => {
+    const fetchLatestArticles = async () => {
+      const { data, error } = await supabase
+        .from("articles")
+        .select("*")
+        .order("date", { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error("Erro ao buscar artigos:", error.message);
+      } else if (data) {
+        setLatestArticles(data as Article[]);
+      }
+    };
+
+    fetchLatestArticles();
+  }, []);
+
+  const formatDate = (dateString: string) => {
+    const [year, month, day] = dateString.split("T")[0].split("-");
+    return `${day}/${month}/${year}`;
+  };
+
   const highlights = [
     {
       icon: Shield,
@@ -161,6 +199,77 @@ const Home = () => {
             </div>
           </div>
         </section>
+
+        {/* Latest Articles Section */}
+        {latestArticles.length > 0 && (
+          <section className="py-section bg-background">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-4 py-2 rounded-full mb-6">
+                  <BookOpen className="w-4 h-4" />
+                  Conteúdo Especializado
+                </div>
+                <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+                  Artigos & Novidades
+                </h2>
+                <p className="font-sans text-lg text-muted-foreground max-w-3xl mx-auto">
+                  Análises jurídicas, mudanças na legislação e insights de nossos
+                  especialistas em direito securitário. Conhecimento que protege seus direitos.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
+                {latestArticles.map((article) => (
+                  <Link
+                    key={article.id}
+                    to="/artigos"
+                    className="bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-elegant transition-all duration-300 group"
+                  >
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className="bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
+                          {article.category}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Clock className="w-3 h-3" />
+                          {article.read_time}
+                        </span>
+                      </div>
+
+                      <h3 className="font-serif text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                        {article.title}
+                      </h3>
+
+                      <p className="font-sans text-muted-foreground mb-6 line-clamp-3">
+                        {article.excerpt}
+                      </p>
+
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4" />
+                          <span>{article.author}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          <span>{formatDate(article.date)}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="text-center">
+                <Button variant="default" asChild>
+                  <Link to="/artigos">
+                    Ver Todos os Artigos
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* CTA Section */}
         <section className="py-section bg-primary text-primary-foreground">

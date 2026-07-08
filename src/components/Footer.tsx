@@ -67,11 +67,19 @@ const Footer = () => {
               >
                 Contato
               </a>
-              <a 
-                href="/privacidade" 
+              <a
+                href="/privacidade"
                 className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
               >
                 Política de Privacidade (LGPD)
+              </a>
+              <a
+                href="/codigo-etica.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+              >
+                Código de Ética
               </a>
             </nav>
           </div>

@@ -2,11 +2,15 @@
   RewriteEngine On
   RewriteBase /
 
-  # Não reescreve arquivos ou pastas que existem de verdade (assets, imagens, etc.)
+  # Deixa o index.html passar direto
+  RewriteRule ^index\.html$ - [L]
+
+  # Se o caminho pedido for um arquivo OU uma pasta que existe de verdade
+  # (PDF, imagens, assets, etc.), serve o arquivo e NÃO reescreve.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Qualquer outra rota cai no index.html (SPA / React Router)
-  RewriteRule ^ index.html [L]
+  # Qualquer outra coisa (rotas do React: /artigos, /sobre...) cai no index.html
+  RewriteRule . /index.html [L]
 </IfModule>

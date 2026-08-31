@@ -1,11 +1,26 @@
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
-import { Calendar, User, ArrowRight, Clock, Search, Plus, BookOpen, Star } from "lucide-react";
-import { useState, useEffect } from "react";
+import {
+  ArrowRight,
+  BookOpen,
+  Calendar,
+  CalendarDays,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  Plus,
+  Search,
+  SearchX,
+  Star,
+  Tag,
+  User,
+  X,
+} from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AddArticleModal from "@/components/AddArticleModal.tsx";
 import ArticleDetailsModal from "@/components/ArticleDetailsModal.tsx";
-import { supabase } from "@/lib/supabaseClient"; // <-- importante: ajustar o caminho conforme seu projeto
+import { supabase } from "@/lib/supabaseClient";
 
 interface Article {
   id?: number;
@@ -19,16 +34,114 @@ interface Article {
   content?: string;
 }
 
+const ARTICLES_PER_PAGE = 6;
+const FEATURED_LIMIT = 3;
+
+const MONTH_NAMES = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+];
+
+const formatDate = (dateString?: string) => {
+  if (!dateString) return "—";
+  const [year, month, day] = dateString.split("T")[0].split("-");
+  return `${day}/${month}/${year}`;
+};
+
+/** Chave "AAAA-MM" usada para agrupar os artigos por mês */
+const getPeriodKey = (dateString?: string) =>
+  dateString ? dateString.split("T")[0].slice(0, 7) : "";
+
+const formatPeriod = (periodKey: string) => {
+  const [year, month] = periodKey.split("-");
+  return `${MONTH_NAMES[Number(month) - 1]} de ${year}`;
+};
+
+/** Régua de páginas, com reticências quando há muitas */
+const getPageNumbers = (current: number, total: number): (number | "...")[] => {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+
+  const pages: (number | "...")[] = [1];
+  if (current > 3) pages.push("...");
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+    pages.push(i);
+  }
+  if (current < total - 2) pages.push("...");
+  pages.push(total);
+  return pages;
+};
+
+interface ArticleCardProps {
+  article: Article;
+  featured?: boolean;
+  onOpen: (article: Article) => void;
+}
+
+const ArticleCard = ({ article, featured = false, onOpen }: ArticleCardProps) => (
+  <article className="relative flex flex-col bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-elegant hover:-translate-y-1 transition-all duration-300 group">
+    {featured && (
+      <>
+        <div className="h-1.5 bg-hero-gradient" />
+        <div className="absolute top-4 right-4 flex items-center gap-1 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full shadow-md">
+          <Star className="w-3 h-3 fill-current" />
+          Destaque
+        </div>
+      </>
+    )}
+
+    <div className="p-6 flex flex-col flex-1">
+      <div className={`flex flex-wrap items-center gap-2 mb-4 ${featured ? "pr-24" : ""}`}>
+        <span className="bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
+          {article.category}
+        </span>
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+          <Clock className="w-3 h-3" />
+          {article.read_time}
+        </span>
+      </div>
+
+      <h3 className="font-serif text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+        {article.title}
+      </h3>
+
+      <p className="font-sans text-muted-foreground mb-6 line-clamp-3">
+        {article.excerpt}
+      </p>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground mb-4 mt-auto">
+        <div className="flex items-center gap-2">
+          <User className="w-4 h-4" />
+          <span>{article.author}</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Calendar className="w-4 h-4" />
+          <span>{formatDate(article.date)}</span>
+        </div>
+      </div>
+
+      <button
+        className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+        onClick={() => onOpen(article)}
+      >
+        Ler artigo completo
+        <ArrowRight className="w-4 h-4" />
+      </button>
+    </div>
+  </article>
+);
+
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const [selectedPeriod, setSelectedPeriod] = useState("Todos");
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);  
-
-  const categories = ["Todos", ...Array.from(new Set(articles.map(a => a.category).filter(Boolean))).sort()];
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const listRef = useRef<HTMLElement>(null);
 
   const fetchArticles = async () => {
     setLoading(true);
@@ -53,21 +166,77 @@ const Blog = () => {
     fetchArticles();
   };
 
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch =
-      article.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.excerpt?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "Todos" || article.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const categories = useMemo(
+    () => Array.from(new Set(articles.map((a) => a.category).filter(Boolean))).sort(),
+    [articles]
+  );
 
-  const featuredArticles = filteredArticles.filter(article => article.featured);
-  const regularArticles = filteredArticles.filter(article => !article.featured);
+  /** Meses que possuem artigos, do mais recente para o mais antigo */
+  const periods = useMemo(() => {
+    const counter = new Map<string, number>();
+    articles.forEach((article) => {
+      const key = getPeriodKey(article.date);
+      if (key) counter.set(key, (counter.get(key) ?? 0) + 1);
+    });
+    return Array.from(counter.entries()).sort((a, b) => b[0].localeCompare(a[0]));
+  }, [articles]);
 
-  const formatDate = (dateString: string) => {
-    const [year, month, day] = dateString.split("T")[0].split("-");
-    return `${day}/${month}/${year}`;
+  const filteredArticles = useMemo(
+    () =>
+      articles.filter((article) => {
+        const term = searchTerm.trim().toLowerCase();
+        const matchesSearch =
+          !term ||
+          article.title?.toLowerCase().includes(term) ||
+          article.excerpt?.toLowerCase().includes(term);
+        const matchesCategory =
+          selectedCategory === "Todos" || article.category === selectedCategory;
+        const matchesPeriod =
+          selectedPeriod === "Todos" || getPeriodKey(article.date) === selectedPeriod;
+        return matchesSearch && matchesCategory && matchesPeriod;
+      }),
+    [articles, searchTerm, selectedCategory, selectedPeriod]
+  );
+
+  const isFiltering =
+    searchTerm.trim() !== "" || selectedCategory !== "Todos" || selectedPeriod !== "Todos";
+
+  // Sem filtros, os mais recentes viram vitrine e o restante entra na lista paginada.
+  // Com filtros ativos, mostramos apenas a lista de resultados.
+  const featuredArticles = isFiltering
+    ? []
+    : filteredArticles.filter((article) => article.featured).slice(0, FEATURED_LIMIT);
+
+  const listArticles = filteredArticles.filter(
+    (article) => !featuredArticles.includes(article)
+  );
+
+  const totalPages = Math.max(1, Math.ceil(listArticles.length / ARTICLES_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedArticles = listArticles.slice(
+    (safePage - 1) * ARTICLES_PER_PAGE,
+    safePage * ARTICLES_PER_PAGE
+  );
+
+  // Qualquer mudança de filtro volta para a primeira página
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCategory, selectedPeriod]);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("Todos");
+    setSelectedPeriod("Todos");
+  };
+
+  const openArticle = (article: Article) => {
+    setSelectedArticle(article);
+    setIsDetailsOpen(true);
   };
 
   return (
@@ -88,7 +257,13 @@ const Blog = () => {
       <main className="min-h-screen">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-hero-gradient pt-32 pb-20">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: "radial-gradient(circle at 20% 20%, white 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+            }}
+          />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-full mb-6 border border-white/20">
@@ -105,36 +280,76 @@ const Blog = () => {
               </p>
             </div>
 
-            {/* Search and Filter */}
+            {/* Busca e filtros */}
             <div className="max-w-4xl mx-auto">
-              <div className="flex flex-col md:flex-row gap-4 mb-6">
+              <div className="relative mb-3">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Pesquisar artigos..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg shadow-elegant focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                {/* Filtro por mês */}
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Pesquisar artigos..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-transparent rounded-lg shadow-elegant focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all"
-                  />
+                  <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                  <select
+                    value={selectedPeriod}
+                    onChange={(e) => setSelectedPeriod(e.target.value)}
+                    aria-label="Filtrar por mês"
+                    className="w-full appearance-none pl-10 pr-9 py-3 bg-white rounded-lg shadow-elegant outline-none focus:ring-2 focus:ring-white cursor-pointer transition-all truncate"
+                  >
+                    <option value="Todos">Todos os meses</option>
+                    {periods.map(([key, count]) => (
+                      <option key={key} value={key}>
+                        {formatPeriod(key)} ({count})
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                </div>
+
+                {/* Filtro por categoria */}
+                <div className="relative flex-1">
+                  <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    aria-label="Filtrar por categoria"
+                    className="w-full appearance-none pl-10 pr-9 py-3 bg-white rounded-lg shadow-elegant outline-none focus:ring-2 focus:ring-white cursor-pointer transition-all truncate"
+                  >
+                    <option value="Todos">Todas as categorias</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 justify-center">
-                {categories.map((category) => (
+              {isFiltering && (
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                  <span className="font-sans text-sm text-white/80">
+                    {filteredArticles.length}{" "}
+                    {filteredArticles.length === 1
+                      ? "artigo encontrado"
+                      : "artigos encontrados"}
+                  </span>
                   <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                      selectedCategory === category
-                        ? "bg-white text-primary shadow-md"
-                        : "bg-white/15 text-white border border-white/25 hover:bg-white/25"
-                    }`}
+                    onClick={clearFilters}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-white bg-white/15 border border-white/25 hover:bg-white/25 transition-all"
                   >
-                    {category}
+                    <X className="w-3.5 h-3.5" />
+                    Limpar filtros
                   </button>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -143,7 +358,7 @@ const Blog = () => {
           <div className="text-center py-20 text-muted-foreground">Carregando artigos...</div>
         ) : (
           <>
-            {/* Featured Articles */}
+            {/* Artigos em destaque */}
             {featuredArticles.length > 0 && (
               <section className="py-section bg-muted/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -156,124 +371,113 @@ const Blog = () => {
                     </p>
                   </div>
 
-                  <div className="grid lg:grid-cols-3 gap-8">
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {featuredArticles.map((article) => (
-                      <article
+                      <ArticleCard
                         key={article.id}
-                        className="relative bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-elegant hover:-translate-y-1 transition-all duration-300 group"
-                      >
-                        <div className="h-1.5 bg-hero-gradient" />
-                        <div className="absolute top-4 right-4 flex items-center gap-1 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full shadow-md">
-                          <Star className="w-3 h-3 fill-current" />
-                          Destaque
-                        </div>
-                        <div className="p-6">
-                          <div className="flex items-center gap-2 mb-4">
-                            <span className="bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">
-                              {article.category}
-                            </span>
-                            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="w-3 h-3" />
-                              {article.read_time}
-                            </span>
-                          </div>
-
-                          <h3 className="font-serif text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                            {article.title}
-                          </h3>
-
-                          <p className="font-sans text-muted-foreground mb-6 line-clamp-3">
-                            {article.excerpt}
-                          </p>
-
-                          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                            <div className="flex items-center gap-2">
-                              <User className="w-4 h-4" />
-                              <span>{article.author}</span>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4" />
-                              <span>{formatDate(article.date)}</span>
-                            </div>
-                          </div>
-
-                          <button
-                            className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
-                            onClick={() => {
-                              setSelectedArticle(article);
-                              setIsDetailsOpen(true);
-                            }}
-                          >
-                            Ler artigo completo
-                            <ArrowRight className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </article>
+                        article={article}
+                        featured
+                        onOpen={openArticle}
+                      />
                     ))}
                   </div>
                 </div>
               </section>
             )}
 
-            {/* Regular Articles */}
-            {regularArticles.length > 0 && (
-              <section className="py-section bg-background">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="text-center mb-12">
-                    <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-                      Todos os Artigos
-                    </h2>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {regularArticles.map((article) => (
-                      <article
-                        key={article.id}
-                        className="bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-elegant transition-all duration-300 group"
-                      >
-                        <div className="p-6">
-                          <div className="flex items-center gap-2 mb-4">
-                            <span className="bg-secondary/10 text-secondary text-xs font-semibold px-3 py-1 rounded-full">
-                              {article.category}
-                            </span>
-                            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <Clock className="w-3 h-3" />
-                              {article.read_time}
-                            </span>
-                          </div>
-
-                          <h3 className="font-serif text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                            {article.title}
-                          </h3>
-
-                          <p className="font-sans text-muted-foreground mb-6 line-clamp-2">
-                            {article.excerpt}
-                          </p>
-
-                          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                            <div className="flex items-center gap-2">
-                              <User className="w-4 h-4" />
-                              <span>{article.author}</span>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                              <Calendar className="w-4 h-4" />
-                              <span>{formatDate(article.date)}</span>
-                            </div>
-                          </div>
-
-                          <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
-                            Ler mais
-                            <ArrowRight className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
+            {/* Listagem paginada */}
+            <section ref={listRef} className="py-section bg-background scroll-mt-24">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+                    {isFiltering ? "Resultados da busca" : "Todos os Artigos"}
+                  </h2>
+                  {listArticles.length > 0 && (
+                    <p className="font-sans text-muted-foreground">
+                      {listArticles.length}{" "}
+                      {listArticles.length === 1 ? "artigo" : "artigos"}
+                      {totalPages > 1 && ` — página ${safePage} de ${totalPages}`}
+                    </p>
+                  )}
                 </div>
-              </section>
-            )}
+
+                {paginatedArticles.length > 0 ? (
+                  <>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {paginatedArticles.map((article) => (
+                        <ArticleCard
+                          key={article.id}
+                          article={article}
+                          onOpen={openArticle}
+                        />
+                      ))}
+                    </div>
+
+                    {totalPages > 1 && (
+                      <nav
+                        className="flex flex-wrap items-center justify-center gap-2 mt-12"
+                        aria-label="Paginação dos artigos"
+                      >
+                        <button
+                          onClick={() => goToPage(safePage - 1)}
+                          disabled={safePage === 1}
+                          aria-label="Página anterior"
+                          className="w-10 h-10 flex items-center justify-center rounded-full border text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all disabled:opacity-40 disabled:pointer-events-none"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                        </button>
+
+                        {getPageNumbers(safePage, totalPages).map((page, index) =>
+                          page === "..." ? (
+                            <span
+                              key={`gap-${index}`}
+                              className="w-10 text-center text-muted-foreground"
+                            >
+                              …
+                            </span>
+                          ) : (
+                            <button
+                              key={page}
+                              onClick={() => goToPage(page)}
+                              aria-current={page === safePage ? "page" : undefined}
+                              className={`w-10 h-10 rounded-full text-sm font-medium transition-all ${
+                                page === safePage
+                                  ? "bg-primary text-primary-foreground shadow-md"
+                                  : "border text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          )
+                        )}
+
+                        <button
+                          onClick={() => goToPage(safePage + 1)}
+                          disabled={safePage === totalPages}
+                          aria-label="Próxima página"
+                          className="w-10 h-10 flex items-center justify-center rounded-full border text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all disabled:opacity-40 disabled:pointer-events-none"
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </nav>
+                    )}
+                  </>
+                ) : (
+                  <div className="text-center py-16">
+                    <SearchX className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
+                    <h3 className="font-serif text-xl font-bold text-foreground mb-2">
+                      Nenhum artigo encontrado
+                    </h3>
+                    <p className="font-sans text-muted-foreground mb-6">
+                      Tente ajustar a pesquisa ou selecionar outro mês.
+                    </p>
+                    <Button variant="default" onClick={clearFilters}>
+                      Limpar filtros
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </section>
           </>
         )}
 

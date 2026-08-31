@@ -14,6 +14,14 @@ FTP_USER="dev@nigrofranciscatto.com.br"
 REMOTE_DIR="/public_html"
 LOCAL_DIR="dist"
 
+# O servidor (br65-cp.valueserver.com.br / Pure-FTPd) responde
+# "500 This security scheme is not implemented" a AUTH TLS e AUTH SSL,
+# e não expõe as portas 990 (FTPS implícito) nem 22 (SFTP).
+# Por isso a conexão vai sem criptografia — a senha trafega em texto puro.
+#
+# Quando a hospedagem habilitar FTPS ou SFTP, troque para "yes" aqui.
+FTP_TLS="no"
+
 # Arquivos da raiz do site. A pasta assets/ é tratada à parte (espelhada).
 ROOT_FILES=(
   index.html
@@ -52,10 +60,21 @@ for f in "${ROOT_FILES[@]}"; do
   fi
 done
 
+if [[ "$FTP_TLS" == "yes" ]]; then
+  TLS_SETTINGS="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no"
+else
+  TLS_SETTINGS="set ftp:ssl-allow no"
+fi
+
 echo
 echo "Servidor: $FTP_HOST"
 echo "Usuário:  $FTP_USER"
 echo "Destino:  $REMOTE_DIR"
+if [[ "$FTP_TLS" != "yes" ]]; then
+  echo
+  echo "AVISO: este servidor não aceita FTPS; a conexão vai SEM criptografia."
+  echo "       Peça FTPS/SFTP à hospedagem e troque FTP_TLS para \"yes\"."
+fi
 echo
 read -rsp "Senha FTP: " FTP_PASS
 echo
@@ -66,9 +85,7 @@ echo "==> Enviando arquivos..."
 # mudam a cada build; os antigos precisam sair. O --delete é aplicado
 # SOMENTE dentro de assets/, nunca na raiz (que tem cgi-bin e outros).
 lftp <<LFTP_SCRIPT
-set ftp:ssl-force true
-set ftp:ssl-protect-data true
-set ssl:verify-certificate no
+$TLS_SETTINGS
 set cmd:fail-exit true
 open -u "$FTP_USER","$FTP_PASS" "$FTP_HOST"
 lcd $LOCAL_DIR

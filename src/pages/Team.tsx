@@ -9,6 +9,7 @@ import lawyer4 from "@/assets/fabiana.jpg";
 import lawyer5 from "@/assets/robertaCarvalho.jpg";
 import noPic from "@/assets/noPicFem.jpg";
 import { FaWhatsapp } from "react-icons/fa";
+import { abrirWhatsApp } from "@/lib/whatsapp";
 
 const Team = () => {
   const team = [
@@ -76,10 +77,7 @@ const Team = () => {
     },
   ];
 
-  const openWhatsApp = () => {
-    const url = `https://api.whatsapp.com/send?phone=15988151900`;
-    window.open(url, "_blank");
-  };
+  const openWhatsApp = () => abrirWhatsApp();
 
   return (
     <>

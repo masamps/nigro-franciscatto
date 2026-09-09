@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import PageTracker from "./components/PageTracker";
+import WhatsAppButton from "./components/WhatsAppButton";
 import Privacy from "./pages/Privacy";
 import Testimonials from "./pages/Testimonials";
 import Admin from "./pages/Admin";
@@ -49,6 +50,7 @@ const Site = () => {
       </Routes>
 
       {!noPainel && <Footer />}
+      {!noPainel && <WhatsAppButton />}
     </>
   );
 };

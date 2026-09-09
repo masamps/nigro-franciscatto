@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/custom-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/lib/supabaseClient";
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
 
 export type Article = {
   title: string;

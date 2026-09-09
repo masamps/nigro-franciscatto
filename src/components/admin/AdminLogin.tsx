@@ -19,6 +19,8 @@ const AdminLogin = () => {
     setEnviando(false);
 
     if (error) {
+      // Detalhe real no console para diagnóstico; a tela mostra mensagem genérica.
+      console.error("Falha no login:", error.message);
       // Mensagem única para e-mail e senha: dizer qual dos dois está errado
       // ajudaria quem estivesse tentando descobrir os e-mails válidos.
       setErro("E-mail ou senha incorretos.");

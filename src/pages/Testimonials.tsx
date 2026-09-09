@@ -80,7 +80,7 @@ const Testimonials = () => {
           name="keywords"
           content="depoimentos clientes, avaliações advocacia, opinião clientes, escritório advocacia seguros"
         />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/depoimentos" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/depoimentos" />
       </Helmet>
 
       <main className="min-h-screen pt-20">

@@ -29,7 +29,7 @@ const Privacy = () => {
         />
         <link
           rel="canonical"
-          href="https://advocaciaseguros.com.br/privacidade"
+          href="https://nigrofranciscatto.com.br/privacidade"
         />
       </Helmet>
 

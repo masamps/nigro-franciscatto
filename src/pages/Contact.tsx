@@ -32,8 +32,20 @@ const Contact = () => {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      await emailjs.send(
+    // O contato é gravado no banco E enviado por e-mail, de forma independente.
+    // Se o e-mail falhar (cota do EmailJS, spam, indisponibilidade), o lead
+    // continua registrado e visível para o escritório — antes ele era perdido.
+    const [gravacao, envioEmail] = await Promise.allSettled([
+      supabase.from("contatos").insert([
+        {
+          nome: contactForm.name,
+          email: contactForm.email,
+          telefone: contactForm.phone,
+          assunto: contactForm.subject,
+          mensagem: contactForm.message,
+        },
+      ]),
+      emailjs.send(
         "service_diah3ju",
         "template_4j2shs3",
         {
@@ -44,21 +56,36 @@ const Contact = () => {
           message: contactForm.message,
         },
         "iMV2JXWr-RovUUEPD"
-      );
+      ),
+    ]);
 
-      toast({
-        title: "Mensagem enviada com sucesso!",
-        description: "Entraremos em contato em breve.",
-      });
+    const gravou =
+      gravacao.status === "fulfilled" && !gravacao.value.error;
+    const enviou = envioEmail.status === "fulfilled";
 
-      setContactForm({ name: "", email: "", phone: "", subject: "", message: "", lgpd: false });
-    } catch (error) {
+    if (gravacao.status === "fulfilled" && gravacao.value.error) {
+      console.error("Erro ao gravar contato:", gravacao.value.error.message);
+    }
+    if (envioEmail.status === "rejected") {
+      console.error("Erro ao enviar e-mail:", envioEmail.reason);
+    }
+
+    // Só é erro para o visitante se as duas vias falharem.
+    if (!gravou && !enviou) {
       toast({
         title: "Erro ao enviar mensagem",
         description: "Tente novamente mais tarde.",
         variant: "destructive",
       });
+      return;
     }
+
+    toast({
+      title: "Mensagem enviada com sucesso!",
+      description: "Entraremos em contato em breve.",
+    });
+
+    setContactForm({ name: "", email: "", phone: "", subject: "", message: "", lgpd: false });
   };
 
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -201,7 +228,7 @@ const Contact = () => {
         <title>Contato | Advocacia em Seguros - Fale Conosco</title>
         <meta name="description" content="Entre em contato com nosso escritório de advocacia em seguros. Endereço, telefone, e-mail e formulário de contato. Estamos prontos para ajudar você." />
         <meta name="keywords" content="contato advocacia seguros, endereço escritório, telefone advogado, consultoria jurídica" />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/contato" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/contato" />
       </Helmet>
 
       <main className="min-h-screen pt-20">

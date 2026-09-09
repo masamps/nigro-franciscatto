@@ -72,7 +72,7 @@ const Services = () => {
         <title>Áreas de Atuação | Advocacia em Seguros - Serviços Especializados</title>
         <meta name="description" content="Conheça nossas áreas de atuação em direito securitário: análise de apólices, litígios, compliance, consultoria empresarial e mais. Expertise comprovada." />
         <meta name="keywords" content="áreas atuação advocacia seguros, direito securitário, análise apólices, litígios seguros, compliance securitário" />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/areas-atuacao" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/areas-atuacao" />
       </Helmet>
 
       <main className="min-h-screen pt-20">

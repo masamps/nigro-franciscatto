@@ -95,7 +95,7 @@ const Team = () => {
           name="keywords"
           content="equipe advocacia seguros, advogados especialistas, direito securitário, Marina Silva Santos, Carlos Eduardo Oliveira"
         />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/equipe" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/equipe" />
       </Helmet>
 
       <main className="min-h-screen pt-20">

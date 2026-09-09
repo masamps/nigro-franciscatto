@@ -14,6 +14,7 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import PageTracker from "./components/PageTracker";
 import Privacy from "./pages/Privacy";
 import Testimonials from "./pages/Testimonials";
 
@@ -27,6 +28,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter basename="/">
           <ScrollToTop />
+          <PageTracker />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />

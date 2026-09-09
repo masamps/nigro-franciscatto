@@ -1,5 +1,14 @@
 import { Mail, Phone, MapPin, Linkedin, Instagram, Facebook } from "lucide-react";
 
+// Preencha a URL para o ícone aparecer no rodapé. Enquanto estiver null,
+// a rede simplesmente não é exibida — antes os três ícones apontavam
+// para "#" e não levavam a lugar nenhum.
+const socialLinks = [
+  { label: "LinkedIn", icon: Linkedin, url: null as string | null },
+  { label: "Instagram", icon: Instagram, url: null as string | null },
+  { label: "Facebook", icon: Facebook, url: null as string | null },
+];
+
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -104,27 +113,20 @@ const Footer = () => {
         {/* Social Media & Copyright */}
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex gap-4 mb-4 md:mb-0">
-            <a 
-              href="#" 
-              className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a 
-              href="#" 
-              className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              aria-label="Instagram"
-            >
-              <Instagram className="w-5 h-5" />
-            </a>
-            <a 
-              href="#" 
-              className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              aria-label="Facebook"
-            >
-              <Facebook className="w-5 h-5" />
-            </a>
+            {socialLinks
+              .filter((social) => social.url)
+              .map((social) => (
+                <a
+                  key={social.label}
+                  href={social.url as string}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-primary-foreground/10 rounded-lg flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
           </div>
           
           <div className="text-center md:text-right">

@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Award, Users, Target, Globe } from "lucide-react";
-import mesaNigro from "@/assets/mesaNigro.png";
+import mesaNigro from "@/assets/MesaNigro.png";
 import logoAllianz from "@/assets/LogoAllianz.png";
 import logoItau from "@/assets/itau.png";
 import logoYelum from "@/assets/yelum.png";
@@ -67,7 +67,7 @@ const About = () => {
         <title>Sobre Nós | Advocacia em Seguros - História e Valores</title>
         <meta name="description" content="Conheça a história do nosso escritório de advocacia especializado em seguros. Fundado em 1998, somos referência em direito securitário com ética e excelência." />
         <meta name="keywords" content="sobre advocacia seguros, história escritório, valores advocacia, ética profissional" />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/sobre" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/sobre" />
       </Helmet>
 
       <main className="min-h-screen pt-20">

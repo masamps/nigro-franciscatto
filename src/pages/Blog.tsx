@@ -251,7 +251,7 @@ const Blog = () => {
           name="keywords"
           content="artigos direito seguros, blog advocacia securitária, novidades legislação seguros, análises jurídicas"
         />
-        <link rel="canonical" href="https://advocaciaseguros.com.br/artigos" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/artigos" />
       </Helmet>
 
       <main className="min-h-screen">

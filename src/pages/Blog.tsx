@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
-  Plus,
   Search,
   SearchX,
   Star,
@@ -18,7 +17,6 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import AddArticleModal from "@/components/AddArticleModal.tsx";
 import ArticleDetailsModal from "@/components/ArticleDetailsModal.tsx";
 import { supabase } from "@/lib/supabaseClient";
 import { registrarVisita, caminhoDoArtigo } from "@/lib/analytics";
@@ -137,7 +135,6 @@ const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [selectedPeriod, setSelectedPeriod] = useState("Todos");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
@@ -163,9 +160,6 @@ const Blog = () => {
     fetchArticles();
   }, []);
 
-  const handleArticleAdded = () => {
-    fetchArticles();
-  };
 
   const categories = useMemo(
     () => Array.from(new Set(articles.map((a) => a.category).filter(Boolean))).sort(),
@@ -484,22 +478,7 @@ const Blog = () => {
           </>
         )}
 
-        {/* Floating Add Button */}
-        <div className="fixed bottom-6 right-6">
-          <Button
-            onClick={() => setIsModalOpen(true)}
-            className="rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
-          >
-            <Plus className="w-6 h-6" />
-          </Button>
-        </div>
 
-        {/* Modal */}
-        <AddArticleModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onArticleAdded={handleArticleAdded}
-        />
         <ArticleDetailsModal
           isOpen={isDetailsOpen}
           onClose={() => setIsDetailsOpen(false)}

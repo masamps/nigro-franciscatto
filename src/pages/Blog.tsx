@@ -21,6 +21,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import AddArticleModal from "@/components/AddArticleModal.tsx";
 import ArticleDetailsModal from "@/components/ArticleDetailsModal.tsx";
 import { supabase } from "@/lib/supabaseClient";
+import { registrarVisita, caminhoDoArtigo } from "@/lib/analytics";
 
 interface Article {
   id?: number;
@@ -235,6 +236,8 @@ const Blog = () => {
   };
 
   const openArticle = (article: Article) => {
+    // Alimenta o ranking de "artigos mais lidos" do painel.
+    registrarVisita(caminhoDoArtigo(article.id));
     setSelectedArticle(article);
     setIsDetailsOpen(true);
   };

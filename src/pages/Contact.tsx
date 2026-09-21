@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Mail, Phone, MapPin, Send, Clock, Upload, FileText, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/custom-button";
 import { useToast } from "@/hooks/use-toast";
-import emailjs from "@emailjs/browser";
+import { enviarEmailDeContato } from "@/lib/emailjs";
 import { supabase } from "@/lib/supabaseClient";
 
 
@@ -45,18 +45,13 @@ const Contact = () => {
           mensagem: contactForm.message,
         },
       ]),
-      emailjs.send(
-        "service_diah3ju",
-        "template_4j2shs3",
-        {
-          title: contactForm.subject,
-          from_name: contactForm.name,
-          reply_to: contactForm.email,
-          phone: contactForm.phone,
-          message: contactForm.message,
-        },
-        "iMV2JXWr-RovUUEPD"
-      ),
+      enviarEmailDeContato({
+        nome: contactForm.name,
+        email: contactForm.email,
+        telefone: contactForm.phone,
+        assunto: contactForm.subject,
+        mensagem: contactForm.message,
+      }),
     ]);
 
     const gravou =

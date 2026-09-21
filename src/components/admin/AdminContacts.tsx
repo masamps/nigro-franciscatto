@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Send, Check, AlertTriangle } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
+import { enviarEmailDeContato } from "@/lib/emailjs";
 
 interface Contato {
   id: number;
@@ -45,6 +46,8 @@ const AdminContacts = () => {
   const [contatos, setContatos] = useState<Contato[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  // Situação do reenvio por contato: "enviando" | "ok" | "erro"
+  const [reenvio, setReenvio] = useState<Record<number, string>>({});
 
   const buscar = async () => {
     setCarregando(true);
@@ -65,6 +68,17 @@ const AdminContacts = () => {
   useEffect(() => {
     buscar();
   }, []);
+
+  const reenviarEmail = async (c: Contato) => {
+    setReenvio((r) => ({ ...r, [c.id]: "enviando" }));
+    try {
+      await enviarEmailDeContato(c);
+      setReenvio((r) => ({ ...r, [c.id]: "ok" }));
+    } catch (e) {
+      console.error("Falha ao reenviar contato:", e);
+      setReenvio((r) => ({ ...r, [c.id]: "erro" }));
+    }
+  };
 
   const alterarStatus = async (id: number, status: string) => {
     // Atualiza a tela antes da resposta do servidor e desfaz se algo falhar.
@@ -172,14 +186,38 @@ const AdminContacts = () => {
                       <Pill status={c.status} />
                     </td>
                     <td className="px-6 py-4">
-                      {c.status !== "respondido" && (
+                      <div className="flex flex-col items-start gap-2">
                         <button
-                          onClick={() => alterarStatus(c.id, "respondido")}
-                          className="text-xs font-semibold border rounded-lg px-3 py-1.5 hover:bg-accent transition-colors whitespace-nowrap"
+                          onClick={() => reenviarEmail(c)}
+                          disabled={reenvio[c.id] === "enviando"}
+                          className="flex items-center gap-1.5 text-xs font-semibold border rounded-lg px-3 py-1.5 hover:bg-accent transition-colors whitespace-nowrap disabled:opacity-50"
                         >
-                          Marcar respondido
+                          {reenvio[c.id] === "ok" ? (
+                            <>
+                              <Check className="w-3 h-3 text-emerald-600" />
+                              E-mail reenviado
+                            </>
+                          ) : reenvio[c.id] === "erro" ? (
+                            <>
+                              <AlertTriangle className="w-3 h-3 text-destructive" />
+                              Falhou — tentar de novo
+                            </>
+                          ) : (
+                            <>
+                              <Send className="w-3 h-3" />
+                              {reenvio[c.id] === "enviando" ? "Enviando..." : "Reenviar e-mail"}
+                            </>
+                          )}
                         </button>
-                      )}
+                        {c.status !== "respondido" && (
+                          <button
+                            onClick={() => alterarStatus(c.id, "respondido")}
+                            className="text-xs font-semibold border rounded-lg px-3 py-1.5 hover:bg-accent transition-colors whitespace-nowrap"
+                          >
+                            Marcar respondido
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

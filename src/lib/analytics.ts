@@ -42,5 +42,22 @@ export const registrarVisita = async (path: string) => {
   }
 };
 
-/** Caminho usado quando alguém abre um artigo: "/artigos/12" */
-export const caminhoDoArtigo = (id?: number) => `/artigos/${id ?? "desconhecido"}`;
+/**
+ * Clique num canal de contato (WhatsApp, telefone). Vai para a tabela
+ * `eventos`, separada das visitas, para não inflar a contagem de páginas.
+ */
+export const registrarEvento = async (tipo: string) => {
+  if (import.meta.env.DEV) return;
+
+  try {
+    await supabase.from("eventos").insert([
+      {
+        tipo,
+        path: window.location.pathname,
+        session_id: obterIdDeSessao(),
+      },
+    ]);
+  } catch {
+    // silencioso de propósito
+  }
+};

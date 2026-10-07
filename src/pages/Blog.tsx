@@ -17,9 +17,9 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import ArticleDetailsModal from "@/components/ArticleDetailsModal.tsx";
 import { supabase } from "@/lib/supabaseClient";
-import { registrarVisita, caminhoDoArtigo } from "@/lib/analytics";
+import { Link } from "react-router-dom";
+import { caminhoDoArtigo } from "@/lib/artigos";
 
 interface Article {
   id?: number;
@@ -73,10 +73,9 @@ const getPageNumbers = (current: number, total: number): (number | "...")[] => {
 interface ArticleCardProps {
   article: Article;
   featured?: boolean;
-  onOpen: (article: Article) => void;
 }
 
-const ArticleCard = ({ article, featured = false, onOpen }: ArticleCardProps) => (
+const ArticleCard = ({ article, featured = false }: ArticleCardProps) => (
   <article className="relative flex flex-col bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-elegant hover:-translate-y-1 transition-all duration-300 group">
     {featured && (
       <>
@@ -119,13 +118,13 @@ const ArticleCard = ({ article, featured = false, onOpen }: ArticleCardProps) =>
         </div>
       </div>
 
-      <button
+      <Link
+        to={caminhoDoArtigo(article)}
         className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
-        onClick={() => onOpen(article)}
       >
         Ler artigo completo
         <ArrowRight className="w-4 h-4" />
-      </button>
+      </Link>
     </div>
   </article>
 );
@@ -137,8 +136,6 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const listRef = useRef<HTMLElement>(null);
 
   const fetchArticles = async () => {
@@ -227,13 +224,6 @@ const Blog = () => {
     setSearchTerm("");
     setSelectedCategory("Todos");
     setSelectedPeriod("Todos");
-  };
-
-  const openArticle = (article: Article) => {
-    // Alimenta o ranking de "artigos mais lidos" do painel.
-    registrarVisita(caminhoDoArtigo(article.id));
-    setSelectedArticle(article);
-    setIsDetailsOpen(true);
   };
 
   return (
@@ -374,7 +364,6 @@ const Blog = () => {
                         key={article.id}
                         article={article}
                         featured
-                        onOpen={openArticle}
                       />
                     ))}
                   </div>
@@ -405,7 +394,6 @@ const Blog = () => {
                         <ArticleCard
                           key={article.id}
                           article={article}
-                          onOpen={openArticle}
                         />
                       ))}
                     </div>
@@ -478,12 +466,6 @@ const Blog = () => {
           </>
         )}
 
-
-        <ArticleDetailsModal
-          isOpen={isDetailsOpen}
-          onClose={() => setIsDetailsOpen(false)}
-          article={selectedArticle}
-        />
       </main>
     </>
   );

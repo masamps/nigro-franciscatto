@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Linkedin, Instagram, Facebook } from "lucide-react";
+import { registrarEvento } from "@/lib/analytics";
 
 // Preencha a URL para o ícone aparecer no rodapé. Enquanto estiver null,
 // a rede simplesmente não é exibida — antes os três ícones apontavam
@@ -33,7 +34,13 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5" />
-                <span className="text-sm">(15) 98815-1900</span>
+                <a
+                  href="tel:+5515988151900"
+                  onClick={() => registrarEvento("telefone-rodape")}
+                  className="text-sm hover:underline"
+                >
+                  (15) 98815-1900
+                </a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5" />

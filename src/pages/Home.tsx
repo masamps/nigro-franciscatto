@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Shield, Users, Scale, TrendingUp, BookOpen, Calendar, Clock, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { caminhoDoArtigo } from "@/lib/artigos";
 import heroBackground from "@/assets/hero-background.jpg";
 import officeMeeting from "@/assets/office-meeting.jpg";
 
@@ -73,6 +74,7 @@ const Home = () => {
         <title>Nigro Franciscatto</title>
         <meta name="description" content="Escritório de advocacia especializado em seguros com mais de 15 anos de experiência. Consultoria jurídica, análise de apólices e defesa de direitos." />
         <meta name="keywords" content="advocacia, seguros, direito securitário, consultoria jurídica, análise apólice, São Paulo" />
+        <link rel="canonical" href="https://nigrofranciscatto.com.br/" />
       </Helmet>
 
       <div className="min-h-screen">
@@ -222,7 +224,7 @@ const Home = () => {
                 {latestArticles.map((article) => (
                   <Link
                     key={article.id}
-                    to="/artigos"
+                    to={caminhoDoArtigo(article)}
                     className="bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-elegant transition-all duration-300 group"
                   >
                     <div className="p-6">

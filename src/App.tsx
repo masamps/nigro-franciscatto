@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Team from "./pages/Team";
 import Services from "./pages/Services";
 import Blog from "./pages/Blog";
+import ArticlePage from "./pages/ArticlePage";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
@@ -42,6 +43,7 @@ const Site = () => {
         <Route path="/equipe" element={<Team />} />
         <Route path="/areas-atuacao" element={<Services />} />
         <Route path="/artigos" element={<Blog />} />
+        <Route path="/artigos/:slug" element={<ArticlePage />} />
         <Route path="/contato" element={<Contact />} />
         <Route path="/privacidade" element={<Privacy />} />
         <Route path="/depoimentos" element={<Testimonials />} />

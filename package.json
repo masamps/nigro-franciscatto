@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
     "deploy:ftp": "./deploy.sh",
-    "postbuild": "cp dist/index.html dist/404.html"
+    "postbuild": "cp dist/index.html dist/404.html && node scripts/gerar-sitemap.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

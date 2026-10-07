@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/custom-button";
 import { useToast } from "@/hooks/use-toast";
 import { enviarEmailDeContato } from "@/lib/emailjs";
 import { supabase } from "@/lib/supabaseClient";
+import { registrarEvento } from "@/lib/analytics";
 
 
 const Contact = () => {
@@ -272,7 +273,11 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold text-foreground mb-2">Telefones</h3>
                       <p className="text-muted-foreground">
-                        <a href="tel:+551134567890" className="hover:text-primary transition-colors">
+                        <a
+                          href="tel:+5515988151900"
+                          onClick={() => registrarEvento("telefone-contato")}
+                          className="hover:text-primary transition-colors"
+                        >
                           (15) 98815-1900
                         </a><br />
                       </p>

@@ -10,6 +10,7 @@ import lawyer5 from "@/assets/robertaCarvalho.jpg";
 import noPic from "@/assets/noPicFem.jpg";
 import { FaWhatsapp } from "react-icons/fa";
 import { abrirWhatsApp } from "@/lib/whatsapp";
+import { registrarEvento } from "@/lib/analytics";
 
 const Team = () => {
   const team = [
@@ -77,7 +78,10 @@ const Team = () => {
     },
   ];
 
-  const openWhatsApp = () => abrirWhatsApp();
+  const openWhatsApp = () => {
+    registrarEvento("whatsapp-equipe");
+    abrirWhatsApp();
+  };
 
   return (
     <>

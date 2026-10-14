@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import PageTracker from "./components/PageTracker";
 import WhatsAppButton from "./components/WhatsAppButton";
+import AlertaGolpe from "./components/AlertaGolpe";
 import Privacy from "./pages/Privacy";
 import Testimonials from "./pages/Testimonials";
 import Admin from "./pages/Admin";
@@ -53,6 +54,7 @@ const Site = () => {
 
       {!noPainel && <Footer />}
       {!noPainel && <WhatsAppButton />}
+      {!noPainel && <AlertaGolpe />}
     </>
   );
 };

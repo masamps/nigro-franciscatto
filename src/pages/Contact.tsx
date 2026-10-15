@@ -8,6 +8,25 @@ import { supabase } from "@/lib/supabaseClient";
 import { registrarEvento } from "@/lib/analytics";
 
 
+/**
+ * O nome original vira "1729012345678-curriculo-joao-silva.pdf". Acentos,
+ * espaços e símbolos (comuns em "Currículo João.pdf") fazem o Supabase
+ * recusar o envio.
+ */
+const nomeDeArquivoSeguro = (nome: string) => {
+  const extensao = (nome.match(/\.([a-z0-9]+)$/i)?.[1] ?? "pdf").toLowerCase();
+  const base =
+    nome
+      .replace(/\.[^.]+$/, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .toLowerCase()
+      .slice(0, 60) || "curriculo";
+  return `${Date.now()}-${base}.${extensao}`;
+};
+
 const Contact = () => {
   const { toast } = useToast();
   
@@ -159,9 +178,10 @@ const Contact = () => {
     }
 
     try {
-    const filePath = `${Date.now()}-${uploadedFile.name}`;
-    const { data: fileData, error: uploadError } = await supabase.storage
-      .from("curriculos-public")
+    // Bucket privado: o currículo só pode ser baixado pelo painel, com login.
+    const filePath = nomeDeArquivoSeguro(uploadedFile.name);
+    const { error: uploadError } = await supabase.storage
+      .from("curriculos")
       .upload(filePath, uploadedFile, {
         cacheControl: "3600",
         upsert: false,
@@ -169,11 +189,8 @@ const Contact = () => {
 
     if (uploadError) throw uploadError;
 
-    const { data: publicUrlData } = supabase.storage
-      .from("curriculos-public")
-      .getPublicUrl(filePath);
-
-    const fileUrl = publicUrlData.publicUrl;
+    // Guarda "bucket/caminho" em vez de um link público, que não existe mais.
+    const fileUrl = `curriculos/${filePath}`;
 
     const { error: insertError } = await supabase.from("curriculos").insert([
       {

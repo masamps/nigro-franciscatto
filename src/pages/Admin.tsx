@@ -8,13 +8,15 @@ import AdminOverview from "@/components/admin/AdminOverview";
 import AdminContacts from "@/components/admin/AdminContacts";
 import AdminArticles from "@/components/admin/AdminArticles";
 import AdminNewArticle from "@/components/admin/AdminNewArticle";
+import AdminResumes from "@/components/admin/AdminResumes";
 
-type Aba = "visao" | "contatos" | "artigos" | "novo";
+type Aba = "visao" | "contatos" | "artigos" | "novo" | "curriculos";
 
 const ABAS: { id: Aba; nome: string }[] = [
   { id: "visao", nome: "Visão geral" },
   { id: "contatos", nome: "Contatos" },
   { id: "artigos", nome: "Artigos" },
+  { id: "curriculos", nome: "Currículos" },
 ];
 
 const Admin = () => {
@@ -95,6 +97,7 @@ const Admin = () => {
 
           {aba === "visao" && <AdminOverview />}
           {aba === "contatos" && <AdminContacts />}
+          {aba === "curriculos" && <AdminResumes />}
           {aba === "artigos" && (
             <AdminArticles key={versaoDaLista} onNovoArtigo={() => setAba("novo")} />
           )}

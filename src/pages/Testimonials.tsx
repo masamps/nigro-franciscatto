@@ -95,6 +95,10 @@ const Testimonials = () => {
                 A confiança dos nossos clientes é o nosso maior patrimônio.
                 Veja o que eles dizem sobre nossa atuação e o atendimento prestado.
               </p>
+              <Button onClick={() => setIsModalOpen(true)} className="mt-8">
+                <Plus className="w-4 h-4 mr-2" />
+                Deixe seu depoimento
+              </Button>
             </div>
 
             {/* Average Rating Card */}
@@ -133,6 +137,9 @@ const Testimonials = () => {
                 <p className="font-sans text-muted-foreground">
                   Seja o primeiro a compartilhar sua experiência conosco.
                 </p>
+                <Button variant="outline" onClick={() => setIsModalOpen(true)} className="mt-6">
+                  Deixe seu depoimento
+                </Button>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -167,15 +174,6 @@ const Testimonials = () => {
           </div>
         </section>
 
-        {/* Floating Add Button */}
-        <div className="fixed bottom-6 right-6">
-          <Button
-            onClick={() => setIsModalOpen(true)}
-            className="rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
-          >
-            <Plus className="w-6 h-6" />
-          </Button>
-        </div>
 
         <AddTestimonialModal
           isOpen={isModalOpen}

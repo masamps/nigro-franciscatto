@@ -131,6 +131,8 @@ const Team = () => {
                     <div className="bg-card rounded-lg shadow-elegant border overflow-hidden">
                       <div className="aspect-square overflow-hidden">
                         <img
+                          loading="lazy"
+                          decoding="async"
                           src={member.image}
                           alt={`${member.name} - ${member.role}`}
                           className="w-full h-full object-cover"
@@ -223,6 +225,8 @@ const Team = () => {
                 >
                   <div className="w-32 h-32 mx-auto rounded overflow-hidden mb-4 border">
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={member.image} // 👉 depois substituímos por fotos reais
                       alt={`${member.name} - ${member.role}`}
                       className="w-full h-full object-cover"

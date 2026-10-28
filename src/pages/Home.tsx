@@ -191,8 +191,10 @@ const Home = () => {
               </div>
               
               <div className="relative">
-                <img 
-                  src={officeMeeting} 
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={officeMeeting}
                   alt="Escritório de advocacia especializado em seguros"
                   className="rounded-lg shadow-elegant w-full h-[500px] object-cover"
                 />

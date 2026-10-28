@@ -13,7 +13,7 @@ const socialLinks = [
 const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-44 sm:pb-28">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
@@ -138,10 +138,13 @@ const Footer = () => {
           
           <div className="text-center md:text-right">
             <p className="text-sm text-primary-foreground/60">
-              © 2025 Nigro Franciscatto. Todos os direitos reservados.
+              © {new Date().getFullYear()} Nigro Franciscatto. Todos os direitos reservados.
             </p>
             <p className="text-xs text-primary-foreground/40 mt-1">
               OAB/SP 133.443 | CNPJ: 11.234.512/0001-39
+            </p>
+            <p className="text-xs text-primary-foreground/40 mt-1">
+              Site desenvolvido por Samps Projetos
             </p>
           </div>
         </div>

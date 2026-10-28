@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/custom-button";
 import { ArrowRight, Award, Users, Target, Globe } from "lucide-react";
-import mesaNigro from "@/assets/MesaNigro.png";
+import mesaNigro from "@/assets/MesaNigro.jpg";
 import logoAllianz from "@/assets/LogoAllianz.png";
 import logoItau from "@/assets/itau.png";
 import logoYelum from "@/assets/yelum.png";
@@ -134,6 +134,8 @@ const About = () => {
 
               <div className="relative">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={mesaNigro}
                   alt="Reunião no escritório Nigro Franciscatto Advocacia"
                   className="rounded-lg shadow-elegant w-full max-h-[600px] object-contain"
@@ -197,6 +199,8 @@ const About = () => {
               <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
                 <div className="flex justify-center mb-6">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={logoAllianz}
                     alt="ALLIANZ SEGUROS SA"
                     className="h-16 object-contain"
@@ -211,6 +215,8 @@ const About = () => {
               <div className="bg-card p-2 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
                 <div className="flex justify-center mb-6">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={logoItau}
                     alt="Itaú Seguros Auto e Residência S.A."
                     className="h-20 object-contain"
@@ -225,6 +231,8 @@ const About = () => {
               <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
                 <div className="flex justify-center mb-6">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={logoYelum}
                     alt="Yelum Seguros S.A."
                     className="h-16 object-contain"
@@ -239,6 +247,8 @@ const About = () => {
               <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
                 <div className="flex justify-center mb-6">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={logoIndiana}
                     alt="Indiana Seguros S.A."
                     className="h-16 object-contain"
@@ -253,6 +263,8 @@ const About = () => {
               <div className="bg-card p-8 rounded-lg shadow-sm border text-center hover:shadow-elegant transition-all duration-300">
                 <div className="flex justify-center mb-6">
                   <img
+                    loading="lazy"
+                    decoding="async"
                     src={logoHdi}
                     alt="HDI Seguros S.A."
                     className="h-16 object-contain"
